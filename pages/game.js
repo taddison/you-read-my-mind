@@ -26,10 +26,13 @@ export async function getServerSideProps(context) {
 
   if (!sessionId) {
     sessionId = crypto.randomBytes(16).toString("hex");
-    // TODO: store in the db
+    
+    // expire in 1 week
+    const expires = new Date(new Date().getTime()+604800000);
+    
     context.res.setHeader(
       "Set-Cookie",
-      serialize(SESSION_COOKIE_NAME, sessionId)
+      serialize(SESSION_COOKIE_NAME, sessionId, { expires })
     );
   }
 
