@@ -1,12 +1,24 @@
-import React from 'react'
+import React from "react";
 import { mutate } from "swr";
 import { ApiRoutes } from "../consts";
 
-const gameStates = ["waiting-empty", "waiting-others", "secrets-me-psychic", "secrets-me-guesser", "guessing-me-psychic", "guessing-me-guesser"]
+const gameStates = [
+  "waiting-empty",
+  "waiting-others",
+  "waiting-others-asplayer",
+  "secrets-me-psychic",
+  "secrets-me-guesser",
+  "secrets-me-other",
+  "guessing-me-psychic",
+  "guessing-me-guesser",
+  "guessing-me-other",
+  "finished-me-psychic",
+  "finished-me-guesser",
+  "finished-me-other"
+];
 
 const DebugControls = () => {
-
-  const setGameState = async (state) => {
+  const setGameState = async state => {
     await fetch("/api/debug/setGameState", {
       method: "POST",
       headers: {
@@ -15,18 +27,22 @@ const DebugControls = () => {
       body: JSON.stringify({ state })
     });
     mutate(ApiRoutes.GetGameState);
-  }
+  };
 
   return (
     <div>
-      Debugging controls.  Set game state:
+      Debugging controls. Set game state:
       <ul>
         {gameStates.map(gs => {
-          return <li key={gs}><button onClick={async () => setGameState(gs)}>{gs}</button></li>
+          return (
+            <li key={gs}>
+              <button onClick={async () => setGameState(gs)}>{gs}</button>
+            </li>
+          );
         })}
       </ul>
     </div>
-  )
-}
+  );
+};
 
 export default DebugControls;
