@@ -2,17 +2,14 @@ import React from "react";
 import { RoundStates } from "../consts";
 
 const GameView = ({ gameState }) => {
-  const players = gameState?.players ?? [];
+  const players = gameState.players;
   const psychic = players.find(player => player.isPsychic) ?? '';
   const guesser = players.find(player => player.isGuesser) ?? '';
+  const round = gameState.round;
+  const state = round.state;
+  console.log(gameState)
 
   const currentStatusText = () => {
-    const round = gameState?.round;
-    const state = round?.state;
-
-    if(!state) {
-      return "Uh oh, bug in currentStatusText!"
-    }
 
     switch (state) {
       case RoundStates.WaitingForPlayers:
@@ -33,11 +30,22 @@ const GameView = ({ gameState }) => {
     }
   };
 
-  if (!gameState) return <div>Initializing...</div>;
-
   return (
     <div>
       <div>{currentStatusText()}</div>
+      {(state === RoundStates.Guessing || state === RoundStates.Finished) && (
+        <ul>
+          <li>From: {gameState.round.leftStatement}</li>
+          <li>To: {gameState.round.rightStatement}</li>
+          <li>Subject: {gameState.round.psychicSubject}</li>
+        </ul>
+      )}
+      {state === RoundStates.Finished && (
+        <ul>
+          <li>{`${guesser.name}'s Score: ${round.guessedScore}`}</li>
+          <li>{`${pyschic.name}'s Score: ${round.psychicScore}`}</li>
+        </ul>
+      )}
     </div>
   );
 };
