@@ -1,8 +1,9 @@
-import React, { useRef } from "react";
-import useSWR, { mutate } from "swr";
+import React from "react";
+import useSWR from "swr";
 import cookie, { serialize } from "cookie";
-import { CookieNames } from "../consts";
+import { CookieNames, ApiRoutes } from "../consts";
 import PlayerList from "../components/playerList";
+import PlayerControls from "../components/playerControls";
 const crypto = require("crypto");
 
 const fetcher = (...args) => {
@@ -10,8 +11,7 @@ const fetcher = (...args) => {
 };
 
 const Game = ({ sessionId }) => {
-  const { data: gameState, error } = useSWR("/api/getGameState", fetcher);
-  const playerName = useRef(null);
+  const { data: gameState, error } = useSWR(ApiRoutes.GetGameState, fetcher);
   const isPlayerInGame = !gameState?.players.find(
     p => p.sessionId === sessionId
   );
@@ -22,42 +22,8 @@ const Game = ({ sessionId }) => {
         <h1>You Read My Mind</h1>
       </header>
       <main>
-        <div>
-          {!isPlayerInGame && (
-            <button
-              onClick={async () => {
-                await fetch("/api/removePlayer", {
-                  method: "POST"
-                });
-                mutate("/api/getGameState");
-              }}
-            >
-              Remove Me
-            </button>
-          )}
-          {isPlayerInGame && (
-            <form>
-              <label>Enter your name</label>
-              <input ref={playerName} />
-              <button
-                onClick={async e => {
-                  e.preventDefault();
-                  await fetch("/api/addPlayer", {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ name: playerName.current.value })
-                  });
-                  mutate("/api/getGameState");
-                }}
-              >
-                Join
-              </button>
-            </form>
-          )}
-        </div>
         <PlayerList playerList={gameState?.players} />
+        <PlayerControls isPlayerInGame={isPlayerInGame} />
       </main>
       <footer>
         <small>SessionId: {sessionId}</small>

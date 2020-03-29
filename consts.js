@@ -8,3 +8,7 @@ export const RoundStates = {
   Guessing: "Guessing",
   Finished: "Finished"
 };
+
+export const ApiRoutes = {
+  GetGameState: "/api/getGameState"
+};
