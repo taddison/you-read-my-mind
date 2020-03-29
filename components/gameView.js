@@ -7,7 +7,6 @@ const GameView = ({ gameState }) => {
   const guesser = players.find(player => player.isGuesser) ?? '';
   const round = gameState.round;
   const state = round.state;
-  console.log(gameState)
 
   const currentStatusText = () => {
 
