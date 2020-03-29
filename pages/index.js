@@ -30,7 +30,7 @@ const Game = ({ sessionId }) => {
       </header>
       <main>
         <PlayerList playerList={gameState?.players} />
-        <GameView />
+        <GameView gameState={ gameState } />
         {isPsychic && <PsychicControls />}
         {isGuesser && <GuesserControls />}
         <PlayerControls isPlayerInGame={isPlayerInGame} />
