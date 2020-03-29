@@ -1,7 +1,18 @@
+import { RoundStates } from '../consts';
+
 let players = [
   { sessionId: "123", name: "Fake Guy" },
   { sessionId: "456", name: "Fake Girl" }
 ];
+
+let round = {
+  psychic: null,
+  guesser: null,
+  state: RoundStates.WaitingForPlayers,
+  secretWord: null,
+  secretScore: null,
+  guessedScore: null
+};
 
 export const getPlayers = () => {
   return players;
