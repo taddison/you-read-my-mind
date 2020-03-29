@@ -43,7 +43,7 @@ const GameView = ({ gameState }) => {
       {state === RoundStates.Finished && (
         <ul>
           <li>{`${guesser.name}'s Score: ${round.guessedScore}`}</li>
-          <li>{`${pyschic.name}'s Score: ${round.psychicScore}`}</li>
+          <li>{`${psychic.name}'s Score: ${round.psychicScore}`}</li>
         </ul>
       )}
     </div>
