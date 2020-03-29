@@ -1,9 +1,10 @@
-import { removePlayer } from "../../db/db";
+import { removePlayer } from "../../lib/gameStateManager";
 import addSession from "../../lib/addSession";
 
-export default (req, res) => {
+export default async (req, res) => {
   addSession(req);
+  const sessionId = req.sessionId;
 
-  removePlayer(req.sessionId);
+  await removePlayer(sessionId);
   res.status(204).end();
 };

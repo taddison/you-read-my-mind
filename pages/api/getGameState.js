@@ -1,10 +1,10 @@
-import { getPlayers } from "../../db/db";
+import { getGameState } from "../../lib/gameStateManager";
+import addSession from "../../lib/addSession";
 
-export default (req, res) => {
-  const players = getPlayers();
-  const gameState = {
-    players
-  };
+export default async (req, res) => {
+  addSession(req);
+  const sessionId = req.sessionId;
+  const gameState = await getGameState(sessionId);
 
   res.status(200).json(gameState);
 };
