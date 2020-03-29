@@ -3,7 +3,6 @@ import { mutate } from "swr";
 import { ApiRoutes } from "../consts";
 
 const PlayerControls = ({ isPlayerInGame }) => {
-  console.log(isPlayerInGame);
   const playerName = useRef(null);
 
   return (
