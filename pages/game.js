@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import useSWR, { mutate } from "swr";
 import cookie, { serialize } from "cookie";
 import { SESSION_COOKIE_NAME } from "../consts";
@@ -10,6 +10,7 @@ const fetcher = (...args) => {
 
 const Game = ({ sessionId }) => {
   const { data: gameState, error } = useSWR("/api/getGameState", fetcher);
+  const userName = useRef(null);
 
   return (
     <>
@@ -35,7 +36,7 @@ const Game = ({ sessionId }) => {
           <button
             onClick={async () => {
               await fetch("/api/removePlayer", {
-                method: "POST",
+                method: "POST"
               });
               mutate("/api/getGameState");
             }}
@@ -56,6 +57,25 @@ const Game = ({ sessionId }) => {
           >
             Add Me
           </button>
+          <form>
+            <label>Enter your name</label>
+            <input ref={userName} />
+            <button
+              onClick={async e => {
+                e.preventDefault();
+                await fetch("/api/addPlayer", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({ name: userName.current.value})
+                });
+                mutate("/api/getGameState");
+              }}
+            >
+              Start game
+            </button>
+          </form>
         </div>
       </main>
       <footer>
