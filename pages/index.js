@@ -4,6 +4,9 @@ import cookie, { serialize } from "cookie";
 import { CookieNames, ApiRoutes } from "../consts";
 import PlayerList from "../components/playerList";
 import PlayerControls from "../components/playerControls";
+import PsychicControls from "../components/psychicControls";
+import GuesserControls from "../components/guesserControls";
+import GameView from "../components/gameView";
 const crypto = require("crypto");
 
 const fetcher = (...args) => {
@@ -15,6 +18,10 @@ const Game = ({ sessionId }) => {
   const isPlayerInGame = !gameState?.players.find(
     p => p.sessionId === sessionId
   );
+  // const isPsychic = gameState?.round?.psychic === sessionId;
+  // const isGuesser = gameState?.round?.guesser === sessionId;
+  const isPsychic = true;
+  const isGuesser = true;
 
   return (
     <>
@@ -23,6 +30,9 @@ const Game = ({ sessionId }) => {
       </header>
       <main>
         <PlayerList playerList={gameState?.players} />
+        <GameView />
+        {isPsychic && <PsychicControls />}
+        {isGuesser && <GuesserControls />}
         <PlayerControls isPlayerInGame={isPlayerInGame} />
       </main>
       <footer>
