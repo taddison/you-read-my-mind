@@ -65,7 +65,7 @@ const Game = ({ sessionId }) => {
                   mutate("/api/getGameState");
                 }}
               >
-                Start game
+                Join
               </button>
             </form>
           )}
