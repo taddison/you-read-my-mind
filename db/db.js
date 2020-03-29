@@ -8,6 +8,10 @@ export const getPlayers = () => {
 };
 
 export const addPlayer = (sessionId, name) => {
+  if(players.find(p => p.sessionId === sessionId)) {
+    return;
+  }
+
   players.push({ sessionId, name });
 };
 
