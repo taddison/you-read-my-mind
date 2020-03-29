@@ -1,2 +1,6 @@
 - Add an API to set psychic/guesser role, and an action (to use if people leave the game)
 - Some kind of timeout/remove people from a role (disconncet, etc.)
+- Remove hardcoded guesser/psychic on main page
+- Pass all psychic secrets through
+- Guesser controls
+- Check psychic is actually the psychci
