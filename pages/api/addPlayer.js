@@ -1,9 +1,10 @@
 import { addPlayer } from "../../db/db";
-import { SESSION_COOKIE_NAME } from "../../consts"
+import addSession from "../../lib/addSession";
 
 export default (req, res) => {
-  const sessionId = req.cookies[SESSION_COOKIE_NAME];
+  addSession(req);
+  
   const name = req.body.name;
-  addPlayer(sessionId, name);  
+  addPlayer(req.sessionId, name);  
   res.status(201).end();
 }

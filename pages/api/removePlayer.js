@@ -1,8 +1,9 @@
 import { removePlayer } from "../../db/db";
-import { SESSION_COOKIE_NAME } from "../../consts"
+import addSession from "../../lib/addSession";
 
 export default (req, res) => {
-  const sessionId = req.cookies[SESSION_COOKIE_NAME];
-  removePlayer(sessionId);  
+  addSession(req);
+
+  removePlayer(req.sessionId);  
   res.status(204).end();
 }
