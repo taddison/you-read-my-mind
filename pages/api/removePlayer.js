@@ -1,8 +1,8 @@
 import { removePlayer } from "../../db/db";
+import { SESSION_COOKIE_NAME } from "../../consts"
 
 export default (req, res) => {
-  // TODO: Only the 'super user' should remove other players...
-  
-  removePlayer(req.body.sessionId);  
+  const sessionId = req.cookies[SESSION_COOKIE_NAME];
+  removePlayer(sessionId);  
   res.status(204).end();
 }

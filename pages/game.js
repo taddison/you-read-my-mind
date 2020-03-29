@@ -36,10 +36,6 @@ const Game = ({ sessionId }) => {
             onClick={async () => {
               await fetch("/api/removePlayer", {
                 method: "POST",
-                headers: {
-                  "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ sessionId })
               });
               mutate("/api/getGameState");
             }}
