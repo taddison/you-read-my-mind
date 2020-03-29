@@ -1,0 +1,2 @@
+- Add an API to set psychic/guesser role, and an action (to use if people leave the game)
+- Some kind of timeout/remove people from a role (disconncet, etc.)
