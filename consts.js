@@ -1,10 +1,10 @@
 export const CookieNames = {
-  Session = 'sid',
+  Session: "sid"
 };
 
 export const RoundStates = {
-  WaitingForPlayers = 'WaitingForPlayers',
-  SettingSecrets = 'SettingSecrets',
-  Guessing = 'Guessing',
-  Finished = 'Finished',
-}
+  WaitingForPlayers: "WaitingForPlayers",
+  SettingSecrets: "SettingSecrets",
+  Guessing: "Guessing",
+  Finished: "Finished"
+};
