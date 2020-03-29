@@ -69,16 +69,6 @@ const Game = ({ sessionId }) => {
               </button>
             </form>
           )}
-          <button
-            onClick={async () => {
-              await fetch("/api/removePlayer", {
-                method: "POST",
-              });
-              mutate("/api/getGameState");
-            }}
-          >
-            Remove Me
-          </button>
         </div>
       </main>
       <footer>
