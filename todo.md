@@ -3,4 +3,3 @@
 - Remove hardcoded guesser/psychic on main page
 - Pass all psychic secrets through
 - Guesser controls
-- Check psychic is actually the psychci
