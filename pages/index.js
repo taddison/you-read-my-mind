@@ -31,7 +31,7 @@ const Game = ({ sessionId }) => {
       <main>
         <PlayerList playerList={gameState?.players} />
         {gameState && <GameView gameState={ gameState } />}
-        {isPsychic && <PsychicControls />}
+        {isPsychic && <PsychicControls roundState={ gameState?.round?.state } secretScore={ gameState?.round?.psychicScore } />}
         {isGuesser && <GuesserControls />}
         <PlayerControls isPlayerInGame={isPlayerInGame} />
       </main>
