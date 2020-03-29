@@ -6,6 +6,7 @@ import PlayerList from "../components/playerList";
 import PlayerControls from "../components/playerControls";
 import PsychicControls from "../components/psychicControls";
 import GuesserControls from "../components/guesserControls";
+import DebugControls from "../components/debugControls";
 import GameView from "../components/gameView";
 const crypto = require("crypto");
 
@@ -18,10 +19,8 @@ const Game = ({ sessionId }) => {
   const isPlayerInGame = !gameState?.players.find(
     p => p.sessionId === sessionId
   );
-  // const isPsychic = gameState?.round?.psychic === sessionId;
-  // const isGuesser = gameState?.round?.guesser === sessionId;
-  const isPsychic = true;
-  const isGuesser = true;
+  const isPsychic = gameState?.round?.psychic === sessionId;
+  const isGuesser = gameState?.round?.guesser === sessionId;
 
   return (
     <>
@@ -35,6 +34,9 @@ const Game = ({ sessionId }) => {
         {isGuesser && <GuesserControls />}
         <PlayerControls isPlayerInGame={isPlayerInGame} />
       </main>
+      <section>
+        <DebugControls />
+      </section>
       <footer>
         <small>SessionId: {sessionId}</small>
       </footer>
