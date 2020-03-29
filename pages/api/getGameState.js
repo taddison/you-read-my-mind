@@ -1,10 +1,10 @@
 import { getPlayers } from "../../db/db";
 
-export default (req,res) => {
-  const players =getPlayers();
+export default (req, res) => {
+  const players = getPlayers();
   const gameState = {
-    players,
-  }
+    players
+  };
 
   res.status(200).json(gameState);
-}
+};

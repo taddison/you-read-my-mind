@@ -1,6 +1,6 @@
 let players = [
   { sessionId: "123", name: "Fake Guy" },
-  { sessionId: "456", name: "Fake Girl" },
+  { sessionId: "456", name: "Fake Girl" }
 ];
 
 export const getPlayers = () => {
