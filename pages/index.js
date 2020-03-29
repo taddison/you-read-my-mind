@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import useSWR, { mutate } from "swr";
 import cookie, { serialize } from "cookie";
 import { CookieNames } from "../consts";
@@ -10,6 +10,10 @@ const fetcher = (...args) => {
 
 const Game = ({ sessionId }) => {
   const { data: gameState, error } = useSWR("/api/getGameState", fetcher);
+  const playerName = useRef(null);
+  const isPlayerInGame = !gameState?.players.find(
+    p => p.sessionId === sessionId
+  );
 
   return (
     <>
@@ -32,6 +36,39 @@ const Game = ({ sessionId }) => {
           </ul>
         </div>
         <div>
+          {!isPlayerInGame && (
+            <button
+              onClick={async () => {
+                await fetch("/api/removePlayer", {
+                  method: "POST"
+                });
+                mutate("/api/getGameState");
+              }}
+            >
+              Remove Me
+            </button>
+          )}
+          {isPlayerInGame && (
+            <form>
+              <label>Enter your name</label>
+              <input ref={playerName} />
+              <button
+                onClick={async e => {
+                  e.preventDefault();
+                  await fetch("/api/addPlayer", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ name: playerName.current.value })
+                  });
+                  mutate("/api/getGameState");
+                }}
+              >
+                Start game
+              </button>
+            </form>
+          )}
           <button
             onClick={async () => {
               await fetch("/api/removePlayer", {
@@ -41,20 +78,6 @@ const Game = ({ sessionId }) => {
             }}
           >
             Remove Me
-          </button>
-          <button
-            onClick={async () => {
-              await fetch("/api/addPlayer", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ name: "The mighty" })
-              });
-              mutate("/api/getGameState");
-            }}
-          >
-            Add Me
           </button>
         </div>
       </main>
