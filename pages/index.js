@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import useSWR, { mutate } from "swr";
 import cookie, { serialize } from "cookie";
 import { CookieNames } from "../consts";
+import PlayerList from "../components/playerList"
 const crypto = require("crypto");
 
 const fetcher = (...args) => {
@@ -22,18 +23,7 @@ const Game = ({ sessionId }) => {
       </header>
       <main>
         <div>
-          Players
-          <ul>
-            {gameState &&
-              gameState.players.map(player => {
-                return (
-                  <li key={player.sessionId}>
-                    {player.name}{" "}
-                    {player.sessionId === sessionId ? "(You)" : ""}
-                  </li>
-                );
-              })}
-          </ul>
+          
         </div>
         <div>
           {!isPlayerInGame && (
@@ -70,6 +60,7 @@ const Game = ({ sessionId }) => {
             </form>
           )}
         </div>
+        <PlayerList playerList={gameState?.players} />
       </main>
       <footer>
         <small>SessionId: {sessionId}</small>
