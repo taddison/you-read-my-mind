@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import useSWR, { mutate } from "swr";
 import cookie, { serialize } from "cookie";
-import { SESSION_COOKIE_NAME } from "../consts";
+import { CookieNames } from "../consts";
 const crypto = require("crypto");
 
 const fetcher = (...args) => {
@@ -69,6 +69,16 @@ const Game = ({ sessionId }) => {
               </button>
             </form>
           )}
+          <button
+            onClick={async () => {
+              await fetch("/api/removePlayer", {
+                method: "POST",
+              });
+              mutate("/api/getGameState");
+            }}
+          >
+            Remove Me
+          </button>
         </div>
       </main>
       <footer>
@@ -81,7 +91,7 @@ const Game = ({ sessionId }) => {
 export async function getServerSideProps(context) {
   const cookies = cookie.parse(context.req.headers.cookie ?? "");
 
-  let sessionId = cookies[SESSION_COOKIE_NAME];
+  let sessionId = cookies[CookieNames.Session];
 
   if (!sessionId) {
     sessionId = crypto.randomBytes(16).toString("hex");
@@ -91,7 +101,7 @@ export async function getServerSideProps(context) {
 
     context.res.setHeader(
       "Set-Cookie",
-      serialize(SESSION_COOKIE_NAME, sessionId, { expires })
+      serialize(CookieNames.Session, sessionId, { expires })
     );
   }
 

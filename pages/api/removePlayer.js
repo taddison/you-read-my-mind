@@ -1,8 +1,10 @@
-import { removePlayer } from "../../db/db";
-import { SESSION_COOKIE_NAME } from "../../consts"
+import { removePlayer } from "../../lib/gameStateManager";
+import addSession from "../../lib/addSession";
 
-export default (req, res) => {
-  const sessionId = req.cookies[SESSION_COOKIE_NAME];
-  removePlayer(sessionId);  
+export default async (req, res) => {
+  addSession(req);
+  const sessionId = req.sessionId;
+
+  await removePlayer(sessionId);
   res.status(204).end();
-}
+};

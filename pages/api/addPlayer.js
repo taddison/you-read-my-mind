@@ -1,9 +1,11 @@
-import { addPlayer } from "../../db/db";
-import { SESSION_COOKIE_NAME } from "../../consts"
+import { addPlayer } from "../../lib/gameStateManager";
+import addSession from "../../lib/addSession";
 
-export default (req, res) => {
-  const sessionId = req.cookies[SESSION_COOKIE_NAME];
+export default async (req, res) => {
+  addSession(req);
+  const sessionId = req.sessionId;
   const name = req.body.name;
-  addPlayer(sessionId, name);  
+
+  await addPlayer(sessionId, name);
   res.status(201).end();
-}
+};
