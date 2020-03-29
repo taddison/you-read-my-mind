@@ -10,7 +10,10 @@ const fetcher = (...args) => {
 
 const Game = ({ sessionId }) => {
   const { data: gameState, error } = useSWR("/api/getGameState", fetcher);
-  const userName = useRef(null);
+  const playerName = useRef(null);
+  const isPlayerInGame = !gameState?.players.find(
+    p => p.sessionId === sessionId
+  );
 
   return (
     <>
@@ -33,49 +36,39 @@ const Game = ({ sessionId }) => {
           </ul>
         </div>
         <div>
-          <button
-            onClick={async () => {
-              await fetch("/api/removePlayer", {
-                method: "POST"
-              });
-              mutate("/api/getGameState");
-            }}
-          >
-            Remove Me
-          </button>
-          <button
-            onClick={async () => {
-              await fetch("/api/addPlayer", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ name: "The mighty" })
-              });
-              mutate("/api/getGameState");
-            }}
-          >
-            Add Me
-          </button>
-          <form>
-            <label>Enter your name</label>
-            <input ref={userName} />
+          {!isPlayerInGame && (
             <button
-              onClick={async e => {
-                e.preventDefault();
-                await fetch("/api/addPlayer", {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json"
-                  },
-                  body: JSON.stringify({ name: userName.current.value})
+              onClick={async () => {
+                await fetch("/api/removePlayer", {
+                  method: "POST"
                 });
                 mutate("/api/getGameState");
               }}
             >
-              Start game
+              Remove Me
             </button>
-          </form>
+          )}
+          {isPlayerInGame && (
+            <form>
+              <label>Enter your name</label>
+              <input ref={playerName} />
+              <button
+                onClick={async e => {
+                  e.preventDefault();
+                  await fetch("/api/addPlayer", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ name: playerName.current.value })
+                  });
+                  mutate("/api/getGameState");
+                }}
+              >
+                Start game
+              </button>
+            </form>
+          )}
         </div>
       </main>
       <footer>
