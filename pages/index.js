@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import useSWR, { mutate } from "swr";
 import cookie, { serialize } from "cookie";
 import { CookieNames } from "../consts";
-import PlayerList from "../components/playerList"
+import PlayerList from "../components/playerList";
 const crypto = require("crypto");
 
 const fetcher = (...args) => {
@@ -22,9 +22,6 @@ const Game = ({ sessionId }) => {
         <h1>You Read My Mind</h1>
       </header>
       <main>
-        <div>
-          
-        </div>
         <div>
           {!isPlayerInGame && (
             <button
