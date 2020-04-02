@@ -30,12 +30,12 @@ const DebugControls = () => {
   };
 
   return (
-    <div>
+    <div style={{marginTop: '50px'}}>
       Debugging controls. Set game state:
       <ul>
         {gameStates.map(gs => {
           return (
-            <li key={gs}>
+            <li key={gs} style={{marginTop: '10px'}}>
               <button onClick={async () => setGameState(gs)}>{gs}</button>
             </li>
           );
