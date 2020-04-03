@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { mutate } from "swr";
 import { ApiRoutes, RoundStates } from "../consts";
 
 const PsychicControls = ({ roundState, secretScore }) => {
   const psychicSubject = useRef(null);
-  const psychicCardId = useRef(null);
+  const [selectedCard, setSelectedCard] = useState(null);
   const psychicScore = useRef(null);
 
   const handleSubmit = async e => {
@@ -16,19 +16,26 @@ const PsychicControls = ({ roundState, secretScore }) => {
       },
       body: JSON.stringify({
         psychicSubject: psychicSubject.current.value,
-        leftStatement: cards.find(c => Number(psychicCardId.current.value) === c.id).from,
-        rightStatement: cards.find(c => Number(psychicCardId.current.value) === c.id).to,
+        leftStatement: selectedCard.from,
+        rightStatement: selectedCard.to,
         psychicScore: psychicScore.current.value
       })
     });
     mutate(ApiRoutes.GetGameState);
   };
 
-  const cards = [{
-    id: 1,
-    from: "Bad",
-    to: "Good"
-  }];
+  const cards = [
+    {
+      id: 1,
+      from: "Bad",
+      to: "Good"
+    },
+    {
+      id: 2,
+      from: "Sane",
+      to: "Insane"
+    }
+  ];
 
   return (
     <div>
@@ -37,11 +44,20 @@ const PsychicControls = ({ roundState, secretScore }) => {
           <label>Enter your word</label>
           <input placeholder="word" ref={psychicSubject} />
 
-          <label>
-            {cards[0].from}, {cards[0].to}
-          </label>
-          <input type="radio" value={cards[0].id} ref={psychicCardId} />
-
+          {cards.map(card => {
+            return (
+              <div key={card.id}>
+                <label htmlFor={`card-${card.id}`}>
+                  {card.from} - {card.to}
+                </label>
+                <input
+                  type="radio"
+                  checked={selectedCard?.id === card.id}
+                  onChange={() => setSelectedCard(card)}
+                />
+              </div>
+            );
+          })}
           <label>Score</label>
           <input placeholder="your score" ref={psychicScore} />
 
