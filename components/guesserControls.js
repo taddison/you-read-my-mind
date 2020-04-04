@@ -19,14 +19,24 @@ const GuesserControls = ({ roundState }) => {
     mutate(ApiRoutes.GetGameState);
   };
 
+  const handleConfirm = async () => {
+    await fetch('/api/confirmGuessedScore', {
+      method: "POST",
+    });
+    mutate(ApiRoutes.GetGameState)
+  }
+
   return (
     <div>
       {roundState === "Guessing" && (
+        <>
         <form onSubmit={handleSubmit}>
           <label>Enter your score (-15 to 15)</label>
           <input placeholder="score" ref={guessedScore} />
-          <button type="submit">Submit score</button>
+          <button type="submit">Submit guess</button>
         </form>
+          <button onClick={handleConfirm}>Confirm guess</button>
+          </>
       )}
     </div>
   );
