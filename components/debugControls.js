@@ -30,7 +30,7 @@ const DebugControls = () => {
   };
 
   return (
-    <div className="my-2 max-w-xs">
+    <div className="max-w-xs">
       Debugging controls. Set game state:
       <ul>
         {gameStates.map(gs => {

@@ -23,9 +23,9 @@ const Game = ({ sessionId }) => {
   const isGuesser = gameState?.round?.guesser === sessionId;
 
   return (
-    <>
-      <header>
-        <h1>You Read My Mind</h1>
+    <div className="max-w-6xl mx-auto">
+      <header className="mb-2">
+        <h1 className="text-2xl font-semibold">You Read My Mind</h1>
       </header>
       <main>
         <PlayerList playerList={gameState?.players} />
@@ -34,13 +34,13 @@ const Game = ({ sessionId }) => {
         {isGuesser && <GuesserControls />}
         <PlayerControls isPlayerInGame={isPlayerInGame} />
       </main>
-      <section>
+      <section className="bg-gray-200 p-2 mt-4">
         <DebugControls />
       </section>
       <footer>
         <small>SessionId: {sessionId}</small>
       </footer>
-    </>
+    </div>
   );
 };
 
