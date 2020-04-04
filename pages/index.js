@@ -3,44 +3,38 @@ import useSWR from "swr";
 import cookie, { serialize } from "cookie";
 import { CookieNames, ApiRoutes } from "../consts";
 import PlayerList from "../components/playerList";
+import JoinLeaveControls from "../components/joinLeaveControls";
 import PlayerControls from "../components/playerControls";
-import PsychicControls from "../components/psychicControls";
-import GuesserControls from "../components/guesserControls";
 import DebugControls from "../components/debugControls";
 import GameView from "../components/gameView";
 const crypto = require("crypto");
 
 const fetcher = (...args) => {
-  return fetch(...args).then(res => res.json());
+  return fetch(...args).then((res) => res.json());
 };
 
 const Game = ({ sessionId }) => {
   const { data: gameState, error } = useSWR(ApiRoutes.GetGameState, fetcher);
   const isPlayerInGame = !gameState?.players.find(
-    p => p.sessionId === sessionId
+    (p) => p.sessionId === sessionId
   );
-  const isPsychic = gameState?.round?.psychic === sessionId;
-  const isGuesser = gameState?.round?.guesser === sessionId;
 
   return (
-    <>
-      <header>
-        <h1>You Read My Mind</h1>
-      </header>
-      <main>
-        <PlayerList playerList={gameState?.players} />
-        {gameState && <GameView gameState={ gameState } />}
-        {isPsychic && <PsychicControls roundState={ gameState?.round?.state } secretScore={ gameState?.round?.psychicScore } />}
-        {isGuesser && <GuesserControls />}
-        <PlayerControls isPlayerInGame={isPlayerInGame} />
-      </main>
-      <section>
-        <DebugControls />
-      </section>
+    <div className="min-h-screen flex flex-col">
+        <header className="mb-2">
+          <h1 className="text-2xl font-semibold">You Read My Mind</h1>
+        </header>
+        <main className="flex flex-grow">
+          <PlayerList playerList={gameState?.players} />
+          <GameView gameState={gameState} />
+          <PlayerControls gameState={(gameState, sessionId)} />
+          <JoinLeaveControls isPlayerInGame={isPlayerInGame} />
+        </main>
+        {process.env.NODE_ENV === "development" && <DebugControls />}
       <footer>
         <small>SessionId: {sessionId}</small>
       </footer>
-    </>
+    </div>
   );
 };
 
@@ -62,7 +56,7 @@ export async function getServerSideProps(context) {
   }
 
   return {
-    props: { sessionId: sessionId }
+    props: { sessionId: sessionId },
   };
 }
 

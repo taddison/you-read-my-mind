@@ -1,50 +1,23 @@
-import React, { useRef } from "react";
-import { mutate } from "swr";
-import { ApiRoutes } from "../consts";
+import React from "react";
 
-const PlayerControls = ({ isPlayerInGame }) => {
-  const playerName = useRef(null);
+import PsychicControls from "./psychicControls";
+import GuesserControls from "./guesserControls";
+
+const PlayerControls = ({ gameState, sessionId }) => {
+  if (!gameState) return <div>Loading...</div>;
+
+  const isPsychic = gameState?.round?.psychic === sessionId;
+  const isGuesser = gameState?.round?.guesser === sessionId;
 
   return (
     <div>
-      {!isPlayerInGame && (
-        <button
-          onClick={async () => {
-            await fetch("/api/removePlayer", {
-              method: "POST"
-            });
-            mutate(ApiRoutes.GetGameState);
-          }}
-        >
-          Remove Me
-        </button>
+      {isPsychic && (
+        <PsychicControls
+          roundState={gameState?.round?.state}
+          secretScore={gameState?.round?.psychicScore}
+        />
       )}
-      {isPlayerInGame && (
-        <form>
-          <label>Enter your name</label>
-          <input placeholder="Your Name" ref={playerName} />
-          <button
-            onClick={async e => {
-              e.preventDefault();
-              if(playerName.current.value === "") {
-                alert('You must enter a name');
-                return;
-              }
-
-              await fetch("/api/addPlayer", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ name: playerName.current.value })
-              });
-              mutate(ApiRoutes.GetGameState);
-            }}
-          >
-            Join
-          </button>
-        </form>
-      )}
+      {isGuesser && <GuesserControls />}
     </div>
   );
 };

@@ -2,14 +2,15 @@ import React from "react";
 import { RoundStates } from "../consts";
 
 const GameView = ({ gameState }) => {
+  if (!gameState) return <div>Loading...</div>;
+
   const players = gameState.players;
-  const psychic = players.find(player => player.isPsychic) ?? '';
-  const guesser = players.find(player => player.isGuesser) ?? '';
+  const psychic = players.find((player) => player.isPsychic) ?? "";
+  const guesser = players.find((player) => player.isGuesser) ?? "";
   const round = gameState.round;
   const state = round.state;
 
   const currentStatusText = () => {
-
     switch (state) {
       case RoundStates.WaitingForPlayers:
         if (!round.psychic || !round.guesser) {
