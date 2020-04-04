@@ -12,3 +12,8 @@ export const RoundStates = {
 export const ApiRoutes = {
   GetGameState: "/api/getGameState"
 };
+
+export const ScoreRange = {
+  Max: 15,
+  Min: -15
+};
