@@ -24,7 +24,7 @@ const Game = ({ sessionId }) => {
         <header className="mb-2">
           <h1 className="text-2xl font-semibold">You Read My Mind</h1>
         </header>
-        <main className="flex flex-grow">
+        <main className="flex flex-grow flex-col">
           <PlayerList playerList={gameState?.players} />
           <GameView gameState={gameState} />
           <PlayerControls gameState={gameState} sessionId={sessionId} />
