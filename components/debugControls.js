@@ -30,13 +30,13 @@ const DebugControls = () => {
   };
 
   return (
-    <div style={{marginTop: '50px'}}>
+    <div className="my-2 max-w-xs">
       Debugging controls. Set game state:
       <ul>
         {gameStates.map(gs => {
           return (
-            <li key={gs} style={{marginTop: '10px'}}>
-              <button onClick={async () => setGameState(gs)}>{gs}</button>
+            <li key={gs} onClick={async () => setGameState(gs)} className="my-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent rounded">
+              {gs}
             </li>
           );
         })}
