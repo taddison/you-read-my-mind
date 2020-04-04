@@ -1,0 +1,20 @@
+type Session {
+  sessionId: String!
+  name: String!
+}
+
+type Game {
+  psychic: String!
+  guesser: String!
+  state: String!
+  leftStatement: String!
+  rightStatement: String!
+  psychicPhrase: String!
+  psychicScore: Int!
+  guessedScore: Int!
+}
+
+type Query {
+  sessions: [Session]
+  games: [Game] 
+}

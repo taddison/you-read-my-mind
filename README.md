@@ -2,6 +2,14 @@
 
 An implementation of [Wavelength].
 
+## Configuring Fauna
+- Create a new database
+- Upload the graphql schema
+- Create a new role, assign the role CRUD access to all collections, read access to all indexes
+- Create a new API key
+- Set the `FAUNA_KEY` environment variable to the key (you can use a `.env.local` file for this)
+  - You also need to set the `FAUNA_GRAPHQL_ENDPOINT` environment variable
+
 ## References
 - https://github.com/zeit/next.js/tree/master/examples/with-tailwindcss
 
