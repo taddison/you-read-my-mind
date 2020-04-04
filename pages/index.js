@@ -20,17 +20,17 @@ const Game = ({ sessionId }) => {
   );
 
   return (
-    <div className="max-w-6xl mx-auto">
-      <header className="mb-2">
-        <h1 className="text-2xl font-semibold">You Read My Mind</h1>
-      </header>
-      <main>
-        <PlayerList playerList={gameState?.players} />
-        <GameView gameState={gameState} />
-        <PlayerControls gameState={(gameState, sessionId)} />
-        <JoinLeaveControls isPlayerInGame={isPlayerInGame} />
-      </main>
-      {process.env.NODE_ENV === "development" && <DebugControls />}
+    <div className="min-h-screen flex flex-col">
+        <header className="mb-2">
+          <h1 className="text-2xl font-semibold">You Read My Mind</h1>
+        </header>
+        <main className="flex flex-grow">
+          <PlayerList playerList={gameState?.players} />
+          <GameView gameState={gameState} />
+          <PlayerControls gameState={(gameState, sessionId)} />
+          <JoinLeaveControls isPlayerInGame={isPlayerInGame} />
+        </main>
+        {process.env.NODE_ENV === "development" && <DebugControls />}
       <footer>
         <small>SessionId: {sessionId}</small>
       </footer>
