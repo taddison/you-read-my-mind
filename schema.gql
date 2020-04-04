@@ -4,17 +4,17 @@ type Session {
 }
 
 type Game {
-  psychic: String!
-  guesser: String!
+  psychic: String
+  guesser: String
   state: String!
-  leftStatement: String!
-  rightStatement: String!
-  psychicPhrase: String!
-  psychicScore: Int!
-  guessedScore: Int!
+  leftStatement: String
+  rightStatement: String
+  psychicSubject: String
+  psychicScore: Int
+  guessedScore: Int
 }
 
 type Query {
   sessions: [Session]
-  games: [Game] 
+  games: [Game]
 }
