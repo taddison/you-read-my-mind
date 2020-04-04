@@ -10,6 +10,8 @@ An implementation of [Wavelength].
 - Set the `FAUNA_KEY` environment variable to the key (you can use a `.env.local` file for this)
   - You also need to set the `FAUNA_GRAPHQL_ENDPOINT` environment variable
 
+> For production you'll need to store this in Now Secrets - https://zeit.co/docs/v2/serverless-functions/env-and-secrets#adding-secrets
+
 ## References
 - https://github.com/zeit/next.js/tree/master/examples/with-tailwindcss
 
