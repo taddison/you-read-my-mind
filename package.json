@@ -12,5 +12,10 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "swr": "^0.1.18"
+  },
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^2.1.0",
+    "postcss-preset-env": "^6.7.0",
+    "tailwindcss": "^1.2.0"
   }
 }
