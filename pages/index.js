@@ -27,7 +27,7 @@ const Game = ({ sessionId }) => {
         <main className="flex flex-grow">
           <PlayerList playerList={gameState?.players} />
           <GameView gameState={gameState} />
-          <PlayerControls gameState={(gameState, sessionId)} />
+          <PlayerControls gameState={gameState} sessionId={sessionId} />
           <JoinLeaveControls isPlayerInGame={isPlayerInGame} />
         </main>
         {process.env.NODE_ENV === "development" && <DebugControls />}

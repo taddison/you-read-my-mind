@@ -11,12 +11,12 @@ const PlayerControls = ({ gameState, sessionId }) => {
 
   return (
     <div>
-      {isPsychic && (
+      {isPsychic && 
         <PsychicControls
           roundState={gameState?.round?.state}
           secretScore={gameState?.round?.psychicScore}
         />
-      )}
+      }
       {isGuesser && <GuesserControls />}
     </div>
   );
