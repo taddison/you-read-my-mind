@@ -2,24 +2,24 @@ import React, { useRef, useState } from "react";
 import { mutate } from "swr";
 import { ApiRoutes, RoundStates } from "../consts";
 
-const PsychicControls = ({ roundState, secretScore }) => {
+const PsychicControls = ({ roundState, secretScore, guesser }) => {
   const psychicSubject = useRef(null);
   const [selectedCard, setSelectedCard] = useState(null);
   const psychicScore = useRef(null);
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     await fetch("/api/setPsychicSecrets", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         psychicSubject: psychicSubject.current.value,
         leftStatement: selectedCard.from,
         rightStatement: selectedCard.to,
-        psychicScore: psychicScore.current.value
-      })
+        psychicScore: psychicScore.current.value,
+      }),
     });
     mutate(ApiRoutes.GetGameState);
   };
@@ -28,13 +28,13 @@ const PsychicControls = ({ roundState, secretScore }) => {
     {
       id: 1,
       from: "Bad",
-      to: "Good"
+      to: "Good",
     },
     {
       id: 2,
       from: "Sane",
-      to: "Insane"
-    }
+      to: "Insane",
+    },
   ];
 
   return (
@@ -44,7 +44,7 @@ const PsychicControls = ({ roundState, secretScore }) => {
           <label>Enter your word</label>
           <input placeholder="word" ref={psychicSubject} />
 
-          {cards.map(card => {
+          {cards.map((card) => {
             return (
               <div key={card.id}>
                 <label htmlFor={`card-${card.id}`}>
@@ -66,6 +66,23 @@ const PsychicControls = ({ roundState, secretScore }) => {
       )}
       {roundState === RoundStates.Guessing && (
         <div>Your Score: {secretScore} (Only you can see this!)</div>
+      )}
+      {(roundState === RoundStates.WaitingForPlayers ||
+        roundState === RoundStates.Finished) &&
+      guesser ? (
+        <button
+          type="button"
+          onClick={async (e) => {
+            await fetch("/api/startGame", {
+              method: "POST",
+            });
+            mutate(ApiRoutes.GetGameState);
+          }}
+        >
+          Let's start
+        </button>
+      ) : (
+        ""
       )}
     </div>
   );
