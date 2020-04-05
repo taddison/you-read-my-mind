@@ -1,0 +1,6 @@
+{
+  "env": {
+    "FAUNA_KEY": "@fauna-key",
+    "FAUNA_GRAPHQL_ENDPOINT": "https://graphql.fauna.com/graphql"
+  }
+}
