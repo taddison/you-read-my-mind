@@ -2,6 +2,13 @@
 
 An implementation of [Wavelength].
 
+## Todos
+- Surface errors from calling the API
+  - GraphQL mutations which don't check the return type won't throw any errors, and look like they're silently failing
+- Mutate's second argument might speed up the client UX
+  - Several of the mutate APIs could trivially return the updated `game` state, and would obviate the need for the set/get pair of requests
+- Make the become psychic/guesser explicit actions - simplifes the join/leave actions
+
 ## Configuring Fauna
 - Create a new database
 - Upload the graphql schema
