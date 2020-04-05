@@ -21,10 +21,10 @@ const Game = ({ sessionId }) => {
 
   return (
     <div className="min-h-screen flex flex-col">
-        <header className="mb-2">
+        <header className="bg-red-200 p-4">
           <h1 className="text-2xl font-semibold">You Read My Mind</h1>
         </header>
-        <main className="flex flex-grow flex-col">
+        <main className="flex flex-grow flex-col m-8">
           <PlayerList playerList={gameState?.players} />
           <GameView gameState={gameState} />
           <PlayerControls gameState={gameState} sessionId={sessionId} />

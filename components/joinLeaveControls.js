@@ -6,7 +6,7 @@ const JoinLeaveControls = ({ isPlayerInGame }) => {
   const playerName = useRef(null);
 
   return (
-    <div>
+    <div className="mt-5">
       {!isPlayerInGame && (
         <button
           onClick={async () => {
@@ -20,10 +20,11 @@ const JoinLeaveControls = ({ isPlayerInGame }) => {
         </button>
       )}
       {isPlayerInGame && (
-        <form>
-          <label>Enter your name</label>
-          <input placeholder="Your Name" ref={playerName} />
+        <form className="bg-gray-200 max-w-lg rounded py-4 px-8">
+          <label className="block mb-1 text-sm text-gray-700">Enter your name</label>
+          <input className="py-2 px-4 rounded border-solid border-gray-400 border-2" placeholder="Your Name" ref={playerName} />
           <button
+            className="py-2 px-4 mx-3 rounded text-white tracking-wider bg-blue-300 hover:bg-blue-500"
             onClick={async e => {
               e.preventDefault();
               if(playerName.current.value === "") {
