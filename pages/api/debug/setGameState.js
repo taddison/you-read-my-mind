@@ -1,6 +1,14 @@
-import { setGameState } from "../../../lib/db";
+import { setGameState as setGameStateLegacy} from "../../../lib/db";
+import { setGame } from"../../../lib/faunaDb";
 import { RoundStates } from "../../../consts";
 import addSession from "../../../lib/addSession";
+
+const gameId = "261909046864380436";
+
+const setGameState = async (players, round) => {
+  await setGameStateLegacy(players, round);
+  await setGame(gameId, round);
+}
 
 const blankRound = () => {
   return {
