@@ -15,6 +15,7 @@ const PlayerControls = ({ gameState, sessionId }) => {
         <PsychicControls
           roundState={gameState?.round?.state}
           secretScore={gameState?.round?.psychicScore}
+          guesser={gameState?.round?.guesser}
         />
       }
       {isGuesser && <GuesserControls roundState={gameState?.round?.state} />}
