@@ -13,7 +13,7 @@ const GuesserControls = ({ roundState }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        guesedScore: guessedScore.current.value,
+        guessedScore: guessedScore.current.value,
       }),
     });
     mutate(ApiRoutes.GetGameState);
