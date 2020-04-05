@@ -1,14 +1,26 @@
-import { setGameState as setGameStateLegacy} from "../../../lib/db";
-import { setGame } from"../../../lib/faunaDb";
+import {
+  setGame,
+  getSessions,
+  createSession,
+  deleteSession,
+} from "../../../lib/faunaDb";
 import { RoundStates } from "../../../consts";
 import addSession from "../../../lib/addSession";
 
 const gameId = "261909046864380436";
 
 const setGameState = async (players, round) => {
-  await setGameStateLegacy(players, round);
   await setGame(gameId, round);
-}
+
+  const sessions = await getSessions();
+  for (let session of sessions) {
+    await deleteSession(session._id);
+  }
+
+  for (let player of players) {
+    await createSession(player.sessionId, player.name);
+  }
+};
 
 const blankRound = () => {
   return {
@@ -19,7 +31,7 @@ const blankRound = () => {
     state: RoundStates.WaitingForPlayers,
     psychicSubject: null,
     psychicScore: null,
-    guessedScore: null
+    guessedScore: null,
   };
 };
 
@@ -34,7 +46,7 @@ const animalCrossingSecretsRound = () => {
     leftStatement: "Bad",
     rightStatement: "Good",
     psychicSubject: "Animal Crossing",
-    psychicScore: 10
+    psychicScore: 10,
   };
 };
 
@@ -43,7 +55,7 @@ const emptyPlayers = () => [];
 const defaultPlayers = () => {
   return [
     { sessionId: "guesser", name: "GuesserPlayer" },
-    { sessionId: "psychic", name: "PsychicPlayer" }
+    { sessionId: "psychic", name: "PsychicPlayer" },
   ];
 };
 
@@ -55,16 +67,16 @@ export default (req, res) => {
 
   const playersTesterAsPsychic = [
     { sessionId: "guesser", name: "GuesserPlayer" },
-    { sessionId, name }
+    { sessionId, name },
   ];
   const playersTesterAsGuesser = [
     { sessionId: "psychic", name: "PsychicPlayer" },
-    { sessionId, name }
+    { sessionId, name },
   ];
 
   const defaultPlayersWithTesterExtra = [
     ...defaultPlayers(),
-    { sessionId, name }
+    { sessionId, name },
   ];
 
   switch (req.body.state) {
@@ -81,37 +93,37 @@ export default (req, res) => {
       setGameState(playersTesterAsPsychic, {
         ...defaultRound(),
         psychic: sessionId,
-        state: RoundStates.SettingSecrets
+        state: RoundStates.SettingSecrets,
       });
       break;
     case "secrets-me-guesser":
       setGameState(playersTesterAsGuesser, {
         ...defaultRound(),
         guesser: sessionId,
-        state: RoundStates.SettingSecrets
+        state: RoundStates.SettingSecrets,
       });
       break;
     case "secrets-me-other":
       setGameState(defaultPlayersWithTesterExtra, {
         ...defaultRound(),
-        state: RoundStates.SettingSecrets
+        state: RoundStates.SettingSecrets,
       });
       break;
     case "guessing-me-psychic":
       setGameState(playersTesterAsPsychic, {
         ...animalCrossingSecretsRound(),
-        psychic: sessionId
+        psychic: sessionId,
       });
       break;
     case "guessing-me-guesser":
       setGameState(playersTesterAsGuesser, {
         ...animalCrossingSecretsRound(),
-        guesser: sessionId
+        guesser: sessionId,
       });
       break;
     case "guessing-me-other":
       setGameState(defaultPlayersWithTesterExtra, {
-        ...animalCrossingSecretsRound()
+        ...animalCrossingSecretsRound(),
       });
       break;
     case "finished-me-psychic":
@@ -119,7 +131,7 @@ export default (req, res) => {
         ...animalCrossingSecretsRound(),
         guessedScore: 5,
         state: RoundStates.Finished,
-        psychic: sessionId
+        psychic: sessionId,
       });
       break;
     case "finished-me-guesser":
@@ -127,14 +139,14 @@ export default (req, res) => {
         ...animalCrossingSecretsRound(),
         guessedScore: 5,
         state: RoundStates.Finished,
-        guesser: sessionId
+        guesser: sessionId,
       });
       break;
     case "finished-me-other":
       setGameState(defaultPlayersWithTesterExtra, {
         ...animalCrossingSecretsRound(),
         guessedScore: 5,
-        state: RoundStates.Finished
+        state: RoundStates.Finished,
       });
       break;
     default:
