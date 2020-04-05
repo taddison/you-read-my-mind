@@ -31,7 +31,7 @@ const GameView = ({ gameState }) => {
   };
 
   return (
-    <div>
+    <div className="mt-5">
       <div>{currentStatusText()}</div>
       {(state === RoundStates.Guessing || state === RoundStates.Finished) && (
         <ul>
