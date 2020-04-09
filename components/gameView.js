@@ -3,6 +3,7 @@ import { RoundStates } from "../consts";
 
 const GameView = ({ gameState }) => {
   if (!gameState) return <div>Loading...</div>;
+  if (!gameState.players) return <div>Loading...</div>
 
   const players = gameState.players;
   const psychic = players.find((player) => player.isPsychic) ?? "";
