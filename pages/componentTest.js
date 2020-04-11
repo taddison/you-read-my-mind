@@ -10,6 +10,14 @@ const ComponentTest = () => {
   return (
     <div className="max-w-4xl mx-auto flex items-center mt-4 flex flex-col">
       <Gauge min={min} max={max} value={value} />
+      <div
+        className="mt-6 text-5xl font-black"
+        style={{
+          fontFeatureSettings: "'zero', 'tnum' 1",
+        }}
+      >
+        {value}
+      </div>
       <Slider min={min} max={max} value={value} onChange={setValue} />
     </div>
   )

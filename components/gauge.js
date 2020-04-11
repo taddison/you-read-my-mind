@@ -1,9 +1,8 @@
 import React from "react";
 import { arc } from "d3-shape";
 import { scaleLinear } from "d3-scale";
-import { format } from "d3-format";
 
-const Gauge = ({ value = 60, min = 0, max = 100, label, units }) => {
+const Gauge = ({width="24em", value = 60, min = 0, max = 100 }) => {
   const backgroundArc = arc()
     .innerRadius(0.65)
     .outerRadius(1)
@@ -41,8 +40,8 @@ const Gauge = ({ value = 60, min = 0, max = 100, label, units }) => {
       }}
     >
       <svg
-        style={{ overflow: "visible" }}
-        width="9em"
+        className="overflow-visible"
+        width={width}
         viewBox={[-1, -1, 2, 1].join(" ")}
       >
         <defs>
@@ -81,44 +80,6 @@ const Gauge = ({ value = 60, min = 0, max = 100, label, units }) => {
           fill="#6a6a85"
         />
       </svg>
-
-      <div
-        style={{
-          marginTop: "0.4em",
-          fontSize: "3em",
-          lineHeight: "1em",
-          fontWeight: "900",
-          fontFeatureSettings: "'zero', 'tnum' 1",
-        }}
-      >
-        {format(",")(value)}
-      </div>
-
-      {!!label && (
-        <div
-          style={{
-            color: "#8b8ba7",
-            marginTop: "0.6em",
-            fontSize: "1.3em",
-            lineHeight: "1.3em",
-            fontWeight: "700",
-          }}
-        >
-          {label}
-        </div>
-      )}
-
-      {!!units && (
-        <div
-          style={{
-            color: "#8b8ba7",
-            lineHeight: "1.3em",
-            fontWeight: "300",
-          }}
-        >
-          {units}
-        </div>
-      )}
     </div>
   );
 };
