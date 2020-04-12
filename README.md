@@ -9,6 +9,8 @@ An implementation of [Wavelength].
   - Several of the mutate APIs could trivially return the updated `game` state, and would obviate the need for the set/get pair of requests
   - Seems to particularly impact the player list rather than round state
 - Make the become psychic/guesser explicit actions - simplifes the join/leave actions
+- Add an admin page to clear our test data in prod
+  - And/Or - GameID per environment
 
 ## Configuring Fauna
 - Create a new database
