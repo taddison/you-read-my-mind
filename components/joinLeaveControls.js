@@ -6,9 +6,9 @@ const JoinLeaveControls = ({ isPlayerInGame }) => {
   const playerName = useRef(null);
 
   return (
-    <div className="mt-5">
+    <div className="mt-5 mx-2">
       {!isPlayerInGame && (
-        <button
+        <button className="rounded bg-gray-400 py-1 px-2"
           onClick={async () => {
             await fetch("/api/removePlayer", {
               method: "POST"

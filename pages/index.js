@@ -21,7 +21,7 @@ const Game = ({ sessionId }) => {
 
   return (
     <div className="min-h-screen flex flex-col">
-        <header className="bg-red-200 p-4">
+        <header className="bg-gray-300 p-4">
           <h1 className="text-2xl font-semibold">You Read My Mind</h1>
         </header>
         <main className="flex flex-grow flex-col m-8">
