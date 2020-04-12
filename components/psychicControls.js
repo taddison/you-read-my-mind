@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { mutate } from "swr";
 import { ApiRoutes, RoundStates } from "../consts";
 
@@ -6,6 +6,9 @@ const PsychicControls = ({ roundState, secretScore, guesser }) => {
   const psychicSubject = useRef(null);
   const [selectedCard, setSelectedCard] = useState(null);
   const psychicScore = useRef(null);
+  const customFrom = useRef(null);
+  const customTo = useRef(null);
+  const [cards, setCards] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,18 +27,20 @@ const PsychicControls = ({ roundState, secretScore, guesser }) => {
     mutate(ApiRoutes.GetGameState);
   };
 
-  const cards = [
-    {
-      id: 1,
-      from: "Bad",
-      to: "Good",
-    },
-    {
-      id: 2,
-      from: "Sane",
-      to: "Insane",
-    },
-  ];
+  useEffect(() => {
+    setCards([
+      {
+        id: 1,
+        from: "Bad",
+        to: "Good",
+      },
+      {
+        id: 2,
+        from: "Sane",
+        to: "Insane",
+      },
+    ]);
+  }, []);
 
   return (
     <div>
@@ -58,6 +63,23 @@ const PsychicControls = ({ roundState, secretScore, guesser }) => {
               </div>
             );
           })}
+          <div>
+            <label htmlFor="custom-card">
+              From: <input placeholder="from" ref={customFrom} />
+              To: <input placeholder="to" ref={customTo} />
+            </label>
+            <input
+              type="radio"
+              checked={selectedCard?.id === "custom"}
+              onChange={() =>
+                setSelectedCard({
+                  id: "custom",
+                  from: customFrom.current.value,
+                  to: customTo.current.value,
+                })
+              }
+            />
+          </div>
           <label>Score</label>
           <input placeholder="your score" ref={psychicScore} />
 
