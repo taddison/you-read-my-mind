@@ -33,10 +33,10 @@ const GameView = ({ gameState }) => {
   };
 
   return (
-    <div className="mt-5">
-      <div>{currentStatusText()}</div>
+    <div>
+      <div className="text-xl py-2 px-3">▶ {currentStatusText()}</div>
       {(state === RoundStates.Guessing || state === RoundStates.Finished) && (
-        <div className="flex items-center flex flex-col">
+        <div className="flex items-center flex flex-col max-w-4xl mx-auto">
           <div className="text-xl font-semibold">{round.psychicSubject}</div>
           <div className="flex mt-6">
             <div className="flex items-center italic mr-6">
@@ -69,12 +69,6 @@ const GameView = ({ gameState }) => {
             </div>
           </div>
         </div>
-      )}
-      {state === RoundStates.Finished && (
-        <ul>
-          <li>{`${guesser.name}'s Score: ${round.guessedScore}`}</li>
-          <li>{`${psychic.name}'s Score: ${round.psychicScore}`}</li>
-        </ul>
       )}
     </div>
   );

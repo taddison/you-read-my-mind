@@ -18,7 +18,7 @@ const PlayerControls = ({ gameState, sessionId }) => {
           guesser={gameState?.round?.guesser}
         />
       }
-      {isGuesser && <GuesserControls roundState={gameState?.round?.state} />}
+      {isGuesser && <GuesserControls roundState={gameState?.round?.state} round={gameState?.round} />}
     </div>
   );
 };
