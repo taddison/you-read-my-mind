@@ -8,8 +8,8 @@ const PlayerList = ({ playerList = [] }) => {
   return (
     <div>
       <ul>
-        <li className="bg-blue-100 max-w-lg pb-2 mb-4">
-          <p className="bg-red-200 py-1 px-2 rounded mb-2 font-semibold">
+        <li className="bg-gray-200 max-w-lg pb-2 mb-4">
+          <p className="bg-gray-400 py-1 px-2 rounded mb-2 font-semibold">
             Psychic
           </p>
           <p className="px-2">
@@ -17,8 +17,8 @@ const PlayerList = ({ playerList = [] }) => {
               "Waiting for a psychic..."}
           </p>
         </li>
-        <li className="bg-blue-100 max-w-lg pb-2">
-          <p className="bg-red-200 py-1 px-2 rounded mb-2 font-semibold">
+        <li className="bg-gray-200 max-w-lg pb-2">
+          <p className="bg-gray-400 py-1 px-2 rounded mb-2 font-semibold">
             Guesser
           </p>
           <p className="px-2">
