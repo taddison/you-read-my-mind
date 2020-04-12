@@ -46,7 +46,8 @@ const GameView = ({ gameState }) => {
               <Gauge
                 min={ScoreRange.Min}
                 max={ScoreRange.Max}
-                value={round.guessedScore ?? 0}
+                markerValue={round.guessedScore}
+                arrowValue={round.psychicScore}
               />
               <div className="flex mt-6">
                 <div className="flex flex-col items-center mr-6">
