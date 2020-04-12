@@ -1,9 +1,10 @@
 import React from "react";
-import { RoundStates } from "../consts";
+import { RoundStates, ScoreRange } from "../consts";
+import Gauge from "../components/gauge";
 
 const GameView = ({ gameState }) => {
   if (!gameState) return <div>Loading...</div>;
-  if (!gameState.players) return <div>Loading...</div>
+  if (!gameState.players) return <div>Loading...</div>;
 
   const players = gameState.players;
   const psychic = players.find((player) => player.isPsychic) ?? "";
@@ -35,11 +36,38 @@ const GameView = ({ gameState }) => {
     <div className="mt-5">
       <div>{currentStatusText()}</div>
       {(state === RoundStates.Guessing || state === RoundStates.Finished) && (
-        <ul>
-          <li>From: {gameState.round.leftStatement}</li>
-          <li>To: {gameState.round.rightStatement}</li>
-          <li>Subject: {gameState.round.psychicSubject}</li>
-        </ul>
+        <div className="flex items-center flex flex-col">
+          <div className="text-xl font-semibold">{round.psychicSubject}</div>
+          <div className="flex mt-6">
+            <div className="flex items-center italic mr-6">
+              {round.leftStatement}
+            </div>
+            <div className="flex flex-col items-center">
+              <Gauge
+                min={ScoreRange.Min}
+                max={ScoreRange.Max}
+                value={round.guessedScore ?? 0}
+              />
+              <div className="flex mt-6">
+                <div className="flex flex-col items-center mr-6">
+                  <div className="text-5xl font-black">
+                    {round.psychicScore ?? "??"}
+                  </div>
+                  <div className="font-semibold">Psychic</div>
+                </div>
+                <div className="flex flex-col items-center ml-6">
+                  <div className="text-5xl font-black">
+                    {round.guessedScore ?? "??"}
+                  </div>
+                  <div className="font-semibold">Guessed</div>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center italic ml-6">
+              {round.rightStatement}
+            </div>
+          </div>
+        </div>
       )}
       {state === RoundStates.Finished && (
         <ul>
