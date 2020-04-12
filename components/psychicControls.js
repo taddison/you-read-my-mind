@@ -86,9 +86,6 @@ const PsychicControls = ({ roundState, secretScore, guesser }) => {
           <button type="submit">All done</button>
         </form>
       )}
-      {roundState === RoundStates.Guessing && (
-        <div>Your Score: {secretScore} (Only you can see this!)</div>
-      )}
       {(roundState === RoundStates.WaitingForPlayers ||
         roundState === RoundStates.Finished) &&
       guesser ? (
