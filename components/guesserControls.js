@@ -1,25 +1,28 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import { ApiRoutes } from "../consts";
 import { mutate } from "swr";
+import Slider from "rc-slider";
+import { ScoreRange } from "../consts"
+
+const { Min, Max } = ScoreRange;
 
 const GuesserControls = ({ roundState }) => {
-  const guessedScore = useRef(null);
+  const [guessedScore, setGuessedScore] = useState(0);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const submitGuess = async () => {
     await fetch("/api/setGuessedScore", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        guessedScore: guessedScore.current.value,
+        guessedScore: guessedScore,
       }),
     });
     mutate(ApiRoutes.GetGameState);
   };
 
-  const handleConfirm = async () => {
+  const confirmGuess = async () => {
     await fetch('/api/confirmGuessedScore', {
       method: "POST",
     });
@@ -30,13 +33,11 @@ const GuesserControls = ({ roundState }) => {
     <div>
       {roundState === "Guessing" && (
         <>
-        <form onSubmit={handleSubmit}>
-          <label>Enter your score (-15 to 15)</label>
-          <input placeholder="score" ref={guessedScore} />
-          <button type="submit">Submit guess</button>
-        </form>
-          <button onClick={handleConfirm}>Confirm guess</button>
-          </>
+        <div>Set your guess ({Min} to {Max}):</div>
+        <Slider min={Min} max={Max} value={guessedScore} onChange={setGuessedScore} />
+        <div onClick={submitGuess}>Submit guess</div>
+        {roundState.guessedScore !== null && <div onClick={confirmGuess}>Confirm guess</div>}
+        </>
       )}
     </div>
   );
