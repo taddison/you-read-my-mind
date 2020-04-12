@@ -3,7 +3,6 @@
 An implementation of [Wavelength].
 
 ## Todos
-- Start/Restart should clear prior game state (guess, statement, etc.)
 - Surface errors from calling the API
   - GraphQL mutations which don't check the return type won't throw any errors, and look like they're silently failing
 - Mutate's second argument might speed up the client UX
