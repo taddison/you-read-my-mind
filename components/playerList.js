@@ -33,7 +33,8 @@ const PlayerList = ({ playerList = [], sessionId = "" }) => {
   const otherPlayers = playerList.filter((p) => !p.isPsychic && !p.isGuesser);
 
   return (
-    <div className="max-w-lg mx-2">
+    <div className="flex">
+      <div>
       <ul>
         <li className="bg-gray-200 pb-2 mb-4">
           <p className="bg-gray-400 py-1 px-2 rounded mb-2 font-semibold">
@@ -76,8 +77,10 @@ const PlayerList = ({ playerList = [], sessionId = "" }) => {
           </p>
         </li>
       </ul>
+      </div>
+      <div>
       {otherPlayers.length ? (
-        <div className="mt-4 bg-gray-200">
+        <div className="bg-gray-200">
           <p className="bg-gray-400 py-1 px-2 rounded mb-2 font-semibold">
             Players
           </p>
@@ -92,6 +95,7 @@ const PlayerList = ({ playerList = [], sessionId = "" }) => {
       ) : (
         ""
       )}
+      </div>
     </div>
   );
 };
