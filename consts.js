@@ -10,7 +10,9 @@ export const RoundStates = {
 };
 
 export const ApiRoutes = {
-  GetGameState: "/api/getGameState"
+  GetGameState: "/api/getGameState",
+  TakeRole: "/api/takeRole",
+  RelinquishRole: "/api/relinquishRole"
 };
 
 export const ScoreRange = {

@@ -13,14 +13,13 @@ const GameView = ({ gameState }) => {
   const state = round.state;
 
   const currentStatusText = () => {
+    if (!round.psychic || !round.guesser) {
+      return "Waiting for a psychic and a guesser";
+    }
+
     switch (state) {
       case RoundStates.WaitingForPlayers:
-        if (!round.psychic || !round.guesser) {
-          return "Waiting for a psychic and a guesser";
-        } else {
-          // Must have both - psychic needs to start the round
-          return `Waiting for ${psychic.name} to start the round`;
-        }
+        return `Waiting for ${psychic.name} to start the round`;
       case RoundStates.SettingSecrets:
         return `${psychic.name} is selecting their card, their subject, and their rating`;
       case RoundStates.Guessing:
