@@ -11,6 +11,7 @@ An implementation of [Wavelength].
 - Make the become psychic/guesser explicit actions - simplifes the join/leave actions
 - Add an admin page to clear our test data in prod
   - And/Or - GameID per environment
+- Rotate psychic (or some system to allow for it)
 
 ## Configuring Fauna
 - Create a new database
