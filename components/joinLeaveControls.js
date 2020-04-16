@@ -7,7 +7,7 @@ const JoinLeaveControls = ({ isPlayerInGame }) => {
 
   return (
     <div className="mt-5 mx-2">
-      {!isPlayerInGame && (
+      {isPlayerInGame && (
         <button className="rounded bg-gray-400 py-1 px-2"
           onClick={async () => {
             await fetch("/api/removePlayer", {
@@ -19,7 +19,7 @@ const JoinLeaveControls = ({ isPlayerInGame }) => {
           Remove Me
         </button>
       )}
-      {isPlayerInGame && (
+      {!isPlayerInGame && (
         <form className="bg-gray-200 max-w-lg rounded py-4 px-8">
           <label className="block mb-1 text-sm text-gray-700">Enter your name</label>
           <input className="py-2 px-4 rounded border-solid border-gray-400 border-2" placeholder="Your Name" ref={playerName} />

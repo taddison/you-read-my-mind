@@ -15,7 +15,7 @@ const fetcher = (...args) => {
 
 const Game = ({ sessionId }) => {
   const { data: gameState, error } = useSWR(ApiRoutes.GetGameState, fetcher);
-  const isPlayerInGame = !gameState?.players?.find(
+  const isPlayerInGame = gameState?.players?.find(
     (p) => p.sessionId === sessionId
   );
 
