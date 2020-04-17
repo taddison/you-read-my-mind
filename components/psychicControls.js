@@ -5,7 +5,11 @@ import { ApiRoutes, RoundStates, ScoreRange } from "../consts";
 const Card = ({ left, right, selected = false, onClick }) => {
   return (
     <div className="w-1/2 px-4" onClick={onClick}>
-      <div className={`px-4 flex flex-row border rounded-lg font-semibold italic hover:border-gray-700 ${selected ? "border-gray-700" : ""}`}>
+      <div
+        className={`px-4 flex flex-row border rounded-lg font-semibold italic hover:border-gray-700 ${
+          selected ? "border-gray-700" : ""
+        }`}
+      >
         <div className="flex-grow border-r py-12 text-center">{left}</div>
         <div className="flex-grow py-12 text-center">{right}</div>
       </div>
@@ -61,14 +65,20 @@ const PsychicControls = ({ roundState, secretScore, guesser }) => {
 
           <div className="flex">
             {cards.map((card) => {
-              return <Card key={card.id} left={card.from} right={card.to} selected={selectedCard?.id === card.id} 
-              onClick={() => {
-                setSelectedCard(card)}}
-                />;
+              return (
+                <Card
+                  key={card.id}
+                  left={card.from}
+                  right={card.to}
+                  selected={selectedCard?.id === card.id}
+                  onClick={() => {
+                    setSelectedCard(card);
+                  }}
+                />
+              );
             })}
           </div>
 
-         
           <div>
             <label htmlFor="custom-card">
               From: <input placeholder="from" ref={customFrom} />
@@ -95,7 +105,11 @@ const PsychicControls = ({ roundState, secretScore, guesser }) => {
 
           <h2 className="text-lg mt-6 mb-2">Assign a Score</h2>
           {selectedCard && (
-            <div className="text-md italic">From {selectedCard.from} ({ScoreRange.Min}) to {selectedCard.to} ({ScoreRange.Max}) where would you place {psychicSubject.current.value}?</div>
+            <div className="text-md italic">
+              From {selectedCard.from} ({ScoreRange.Min}) to {selectedCard.to} (
+              {ScoreRange.Max}) where would you place{" "}
+              {psychicSubject.current.value}?
+            </div>
           )}
           <input
             className="py-2 px-4 rounded border"

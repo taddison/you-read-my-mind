@@ -44,7 +44,9 @@ const GuesserControls = ({ round }) => {
             <div className="p-1 font-semibold">{Max}</div>
           </div>
           <div className="flex justify-center">
-            <button onClick={submitGuess} className="mr-2">Set Guess ({guessedScore})</button>
+            <button onClick={submitGuess} className="mr-2">
+              Set Guess ({guessedScore})
+            </button>
             <button
               onClick={confirmGuess}
               disabled={round.guessedScore === null}

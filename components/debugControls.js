@@ -33,10 +33,11 @@ const DebugControls = () => {
 
   return (
     <section className="bg-gray-200 p-2 mt-4 max-w-xs absolute bottom-0 right-0">
-        <button onClick={() => setVisible(v => !v)}>
-          {visible ? "Hide Debug Tools": "Show Debug Tools"}
-        </button>
-        {visible && <ul>
+      <button onClick={() => setVisible((v) => !v)}>
+        {visible ? "Hide Debug Tools" : "Show Debug Tools"}
+      </button>
+      {visible && (
+        <ul>
           {gameStates.map((gs) => {
             return (
               <li
@@ -48,8 +49,9 @@ const DebugControls = () => {
               </li>
             );
           })}
-        </ul>}
-      </section>
+        </ul>
+      )}
+    </section>
   );
 };
 
