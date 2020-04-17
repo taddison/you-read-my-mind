@@ -2,6 +2,17 @@ import React, { useRef, useState, useEffect } from "react";
 import { mutate } from "swr";
 import { ApiRoutes, RoundStates, ScoreRange } from "../consts";
 
+const Card = ({ left, right, selected = false, onClick }) => {
+  return (
+    <div className="w-1/2 px-4" onClick={onClick}>
+      <div className={`px-4 flex flex-row border rounded-lg font-semibold italic hover:border-gray-700 ${selected ? "border-gray-700" : ""}`}>
+        <div className="flex-grow border-r py-12 text-center">{left}</div>
+        <div className="flex-grow py-12 text-center">{right}</div>
+      </div>
+    </div>
+  );
+};
+
 const PsychicControls = ({ roundState, secretScore, guesser }) => {
   const psychicSubject = useRef(null);
   const [selectedCard, setSelectedCard] = useState(null);
@@ -46,22 +57,18 @@ const PsychicControls = ({ roundState, secretScore, guesser }) => {
     <div className="max-w-6xl mx-auto mt-4">
       {roundState === RoundStates.SettingSecrets && (
         <form onSubmit={handleSubmit}>
-          <h2 className="text-lg mb-2">Select a Subject</h2>
+          <h2 className="text-lg mb-4">Select a Subject</h2>
 
-          {cards.map((card) => {
-            return (
-              <div key={card.id}>
-                <label htmlFor={`card-${card.id}`}>
-                  {card.from} - {card.to}
-                </label>
-                <input
-                  type="radio"
-                  checked={selectedCard?.id === card.id}
-                  onChange={() => setSelectedCard(card)}
-                />
-              </div>
-            );
-          })}
+          <div className="flex">
+            {cards.map((card) => {
+              return <Card key={card.id} left={card.from} right={card.to} selected={selectedCard?.id === card.id} 
+              onClick={() => {
+                setSelectedCard(card)}}
+                />;
+            })}
+          </div>
+
+         
           <div>
             <label htmlFor="custom-card">
               From: <input placeholder="from" ref={customFrom} />
@@ -87,6 +94,9 @@ const PsychicControls = ({ roundState, secretScore, guesser }) => {
           />
 
           <h2 className="text-lg mt-6 mb-2">Assign a Score</h2>
+          {selectedCard && (
+            <div className="text-md italic">From {selectedCard.from} ({ScoreRange.Min}) to {selectedCard.to} ({ScoreRange.Max}) where would you place {psychicSubject.current.value}?</div>
+          )}
           <input
             className="py-2 px-4 rounded border"
             placeholder={`${ScoreRange.Min} to ${ScoreRange.Max}`}
