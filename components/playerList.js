@@ -37,10 +37,10 @@ const PlayerList = ({ playerList = [], sessionId = "" }) => {
       <div>
       <ul>
         <li className="bg-gray-200 pb-2 mb-4">
-          <p className="bg-gray-400 py-1 px-2 rounded mb-2 font-semibold">
+          <div className="bg-gray-400 py-1 px-2 rounded mb-2 font-semibold">
             Psychic
-          </p>
-          <p className="px-2">
+          </div>
+          <div className="px-2">
             {psychic ? (
               <div>
                 {psychic.name}{" "}
@@ -54,13 +54,13 @@ const PlayerList = ({ playerList = [], sessionId = "" }) => {
                 <button onClick={takePsychic}>Become the Psychic</button>
               </div>
             )}
-          </p>
+          </div>
         </li>
         <li className="bg-gray-200 pb-2">
-          <p className="bg-gray-400 py-1 px-2 rounded mb-2 font-semibold">
+          <div className="bg-gray-400 py-1 px-2 rounded mb-2 font-semibold">
             Guesser
-          </p>
-          <p className="px-2">
+          </div>
+          <div className="px-2">
             {guesser ? (
               <div>
                 {guesser.name}{" "}
@@ -74,16 +74,16 @@ const PlayerList = ({ playerList = [], sessionId = "" }) => {
                 <button onClick={takeGuesser}>Become the Guesser</button>
               </div>
             )}
-          </p>
+          </div>
         </li>
       </ul>
       </div>
       <div>
       {otherPlayers.length ? (
         <div className="bg-gray-200">
-          <p className="bg-gray-400 py-1 px-2 rounded mb-2 font-semibold">
+          <div className="bg-gray-400 py-1 px-2 rounded mb-2 font-semibold">
             Players
-          </p>
+          </div>
           <ul className="bg-gray-200 pb-2 px-2">
             {playerList
               .filter((p) => !p.isPsychic && !p.isGuesser)
