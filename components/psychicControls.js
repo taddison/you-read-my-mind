@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { mutate } from "swr";
-import { ApiRoutes, RoundStates } from "../consts";
+import { ApiRoutes, RoundStates, ScoreRange } from "../consts";
 
 const PsychicControls = ({ roundState, secretScore, guesser }) => {
   const psychicSubject = useRef(null);
@@ -43,11 +43,10 @@ const PsychicControls = ({ roundState, secretScore, guesser }) => {
   }, []);
 
   return (
-    <div>
+    <div className="max-w-6xl mx-auto mt-4">
       {roundState === RoundStates.SettingSecrets && (
         <form onSubmit={handleSubmit}>
-          <label>Enter your word</label>
-          <input placeholder="word" ref={psychicSubject} />
+          <h2 className="text-lg mb-2">Select a Subject</h2>
 
           {cards.map((card) => {
             return (
@@ -80,10 +79,26 @@ const PsychicControls = ({ roundState, secretScore, guesser }) => {
               }
             />
           </div>
-          <label>Score</label>
-          <input placeholder="your score" ref={psychicScore} />
+          <h2 className="text-lg mt-6 mb-2">Decide on a word or phrase</h2>
+          <input
+            className="py-2 px-4 rounded border"
+            placeholder="It could be anything"
+            ref={psychicSubject}
+          />
 
-          <button type="submit">All done</button>
+          <h2 className="text-lg mt-6 mb-2">Assign a Score</h2>
+          <input
+            className="py-2 px-4 rounded border"
+            placeholder={`${ScoreRange.Min} to ${ScoreRange.Max}`}
+            ref={psychicScore}
+          />
+
+          <button
+            className="block mt-8 font-semibold py-2 px-4 tracking-wider border rounded hover:bg-gray-300"
+            type="submit"
+          >
+            Start the Guessing
+          </button>
         </form>
       )}
       {(roundState === RoundStates.WaitingForPlayers ||
