@@ -11,6 +11,14 @@ An implementation of [Wavelength].
   - Seems to particularly impact the player list rather than round state
 - Add an admin page to clear our test data in prod
   - And/Or - GameID per environment
+- Psychic Controls
+  - Update UI for custom card
+  - Replace useRef with useState
+  - Reveal UI step by step
+- Card library
+  - Add to the backend
+  - Add an API
+  - Retrieve N cards at a time 
 
 ## Configuring Fauna
 
