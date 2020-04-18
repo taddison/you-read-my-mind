@@ -2,6 +2,10 @@
 
 An implementation of [Wavelength].
 
+Supports multiple backends:
+- LocalDb - `yarn dev:localdb`
+- FaunaDb - `yarn dev`
+
 ## Todos
 
 - Surface errors from calling the API
@@ -20,7 +24,11 @@ An implementation of [Wavelength].
   - Add an API
   - Retrieve N cards at a time 
 
-## Configuring Fauna
+## Configuring LocalDb
+
+Clone and run [https://github.com/taddison/you-read-my-mind-local]
+
+## Configuring FaunaDb
 
 - Create a new database
 - Upload the graphql schema
