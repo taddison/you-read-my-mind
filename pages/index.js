@@ -1,24 +1,8 @@
 import React from "react";
-import useSWR from "swr";
 import cookie, { serialize } from "cookie";
-import { CookieNames, ApiRoutes } from "../consts";
-import PlayerList from "../components/playerList";
-import JoinLeaveControls from "../components/joinLeaveControls";
-import PlayerControls from "../components/playerControls";
-import DebugControls from "../components/debugControls";
-import GameView from "../components/gameView";
-const crypto = require("crypto");
+import { CookieNames } from "../consts";
 
-const fetcher = (...args) => {
-  return fetch(...args).then((res) => res.json());
-};
-
-const Game = ({ sessionId }) => {
-  const { data: gameState, error } = useSWR(ApiRoutes.GetGameState, fetcher);
-  const isPlayerInGame = gameState?.players?.find(
-    (p) => p.sessionId === sessionId
-  );
-
+const Home = ({ sessionId }) => {
   return (
     <div className="min-h-screen flex flex-col text-gray-700">
       <header className="bg-gray-200 p-4">
@@ -27,22 +11,8 @@ const Game = ({ sessionId }) => {
         </h1>
       </header>
       <main className="flex flex-grow flex-col m-3">
-        {!gameState ? (
-          <div>Loading...</div>
-        ) : (
-          <>
-            <section className="flex flex-1 flex-col">
-              <GameView gameState={gameState} />
-              <PlayerControls gameState={gameState} sessionId={sessionId} />
-            </section>
-            <section className="flex flex-col">
-              <PlayerList playerList={gameState?.players} sessionId={sessionId} />
-              <JoinLeaveControls isPlayerInGame={isPlayerInGame} />
-            </section>
-          </>
-        )}
+        Join a game (/game/gameId)
       </main>
-      {process.env.NODE_ENV === "development" && <DebugControls />}
       <footer className="bg-gray-200 p-1">
         <small>SessionId: {sessionId}</small>
       </footer>
@@ -72,4 +42,4 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default Game;
+export default Home;
