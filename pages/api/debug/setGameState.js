@@ -3,7 +3,7 @@ import {
   getSessions,
   createSession,
   deleteSession,
-} from "../../../lib/localDb";
+} from "../../../lib/store/APP_TARGET";
 import { RoundStates } from "../../../consts";
 import addSession from "../../../lib/addSession";
 
