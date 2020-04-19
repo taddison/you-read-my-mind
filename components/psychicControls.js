@@ -5,8 +5,8 @@ import { ApiRoutes, RoundStates, ScoreRange } from "../consts";
 // https://stackoverflow.com/a/6274381
 function shuffle(a) {
   for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
 }
@@ -75,15 +75,25 @@ const PsychicControls = ({ roundState, guesser }) => {
     ]);
   }, []);
 
+  const clearSelectedCard = () => {
+    setSelectedCardId(null);
+    setLeftStatement("");
+    setRightStatement("");
+  };
+
   const selectRandomCards = () => {
-    setCardSelection(shuffle([...cards]).slice(0,3));
-  }
+    setCardSelection(shuffle([...cards]).slice(0, 3));
+  };
 
   useEffect(() => {
     selectRandomCards();
-  }, [cards])
+  }, [cards]);
 
-  const isValid = psychicSubject.length > 0 && leftStatement.length > 0 && rightStatement.length > 0 && psychicScore.length > 0;
+  const isValid =
+    psychicSubject.length > 0 &&
+    leftStatement.length > 0 &&
+    rightStatement.length > 0 &&
+    psychicScore.length > 0;
 
   return (
     <div className="max-w-6xl mx-auto mt-4">
@@ -110,7 +120,13 @@ const PsychicControls = ({ roundState, guesser }) => {
                   );
                 })}
               </div>
-              <button className="block py-1 px-3 border rounded-lg hover:bg-gray-300 my-2" onClick={selectRandomCards}>
+              <button
+                className="block py-1 px-3 border rounded-lg hover:bg-gray-300 my-2"
+                onClick={() => {
+                  clearSelectedCard();
+                  selectRandomCards();
+                }}
+              >
                 Show more cards
               </button>
             </div>
@@ -136,9 +152,7 @@ const PsychicControls = ({ roundState, guesser }) => {
             onClick={() => {
               // If showing the custom card UX, clear the selection
               if (!showCustomCard) {
-                setSelectedCardId(null);
-                setLeftStatement("");
-                setRightStatement("");
+                clearSelectedCard();
               }
 
               setShowCustomCard((s) => !s);
@@ -156,12 +170,14 @@ const PsychicControls = ({ roundState, guesser }) => {
           />
 
           <h2 className="text-lg mt-6 mb-2">Assign a Score</h2>
-          {(leftStatement.length > 0 && rightStatement.length > 0 && psychicSubject.length > 0) && (
-            <div className="text-md italic">
-              From {leftStatement} ({ScoreRange.Min}) to {rightStatement} (
-              {ScoreRange.Max}) where would you place {psychicSubject}?
-            </div>
-          )}
+          {leftStatement.length > 0 &&
+            rightStatement.length > 0 &&
+            psychicSubject.length > 0 && (
+              <div className="text-md italic">
+                From {leftStatement} ({ScoreRange.Min}) to {rightStatement} (
+                {ScoreRange.Max}) where would you place {psychicSubject}?
+              </div>
+            )}
           <input
             className="py-2 px-4 rounded border w-32"
             value={psychicScore}
@@ -174,7 +190,9 @@ const PsychicControls = ({ roundState, guesser }) => {
           />
 
           <button
-            className={`block mt-8 font-semibold py-2 px-4 tracking-wider border rounded hover:bg-gray-300 ${!isValid ? "opacity-50 cursor-not-allowed" : ""}`} 
+            className={`block mt-8 font-semibold py-2 px-4 tracking-wider border rounded hover:bg-gray-300 ${
+              !isValid ? "opacity-50 cursor-not-allowed" : ""
+            }`}
             onClick={setSecrets}
             disabled={!isValid}
           >
