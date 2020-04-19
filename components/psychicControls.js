@@ -65,6 +65,8 @@ const PsychicControls = ({ roundState, guesser }) => {
     ]);
   }, []);
 
+  const isValid = psychicSubject.length > 0 && leftStatement.length > 0 && rightStatement.length > 0 && psychicScore.length > 0;
+
   return (
     <div className="max-w-6xl mx-auto mt-4">
       {roundState === RoundStates.SettingSecrets && (
@@ -143,15 +145,20 @@ const PsychicControls = ({ roundState, guesser }) => {
             </div>
           )}
           <input
-            className="py-2 px-4 rounded border"
+            className="py-2 px-4 rounded border w-32"
             value={psychicScore}
             placeholder={`${ScoreRange.Min} to ${ScoreRange.Max}`}
+            type="number"
+            min={ScoreRange.Min}
+            step={1}
+            max={ScoreRange.Max}
             onChange={(e) => setPsychicScore(e.target.value)}
           />
 
           <button
-            className="block mt-8 font-semibold py-2 px-4 tracking-wider border rounded hover:bg-gray-300"
+            className={`block mt-8 font-semibold py-2 px-4 tracking-wider border rounded hover:bg-gray-300 ${!isValid ? "opacity-50 cursor-not-allowed" : ""}`} 
             onClick={setSecrets}
+            disabled={!isValid}
           >
             Start the Guessing
           </button>
