@@ -2,6 +2,15 @@ import React, { useState, useEffect } from "react";
 import { mutate } from "swr";
 import { ApiRoutes, RoundStates, ScoreRange } from "../consts";
 
+// https://stackoverflow.com/a/6274381
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 const Card = ({ left, right, selected = false, onClick }) => {
   return (
     <div className="w-1/3 px-4" onClick={onClick}>
@@ -19,6 +28,7 @@ const Card = ({ left, right, selected = false, onClick }) => {
 
 const PsychicControls = ({ roundState, guesser }) => {
   const [cards, setCards] = useState([]);
+  const [cardSelection, setCardSelection] = useState([]);
 
   const [showCustomCard, setShowCustomCard] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState(null);
@@ -65,6 +75,14 @@ const PsychicControls = ({ roundState, guesser }) => {
     ]);
   }, []);
 
+  const selectRandomCards = () => {
+    setCardSelection(shuffle([...cards]).slice(0,3));
+  }
+
+  useEffect(() => {
+    selectRandomCards();
+  }, [cards])
+
   const isValid = psychicSubject.length > 0 && leftStatement.length > 0 && rightStatement.length > 0 && psychicScore.length > 0;
 
   return (
@@ -74,9 +92,9 @@ const PsychicControls = ({ roundState, guesser }) => {
           <h2 className="text-lg mb-4">Select a Subject</h2>
 
           {!showCustomCard && (
-            <div>
+            <div className="mb-2">
               <div className="flex">
-                {cards.map((card) => {
+                {cardSelection.map((card) => {
                   return (
                     <Card
                       key={card.id}
@@ -92,7 +110,7 @@ const PsychicControls = ({ roundState, guesser }) => {
                   );
                 })}
               </div>
-              <button className="block py-1 px-3 border rounded-lg">
+              <button className="block py-1 px-3 border rounded-lg hover:bg-gray-300 my-2" onClick={selectRandomCards}>
                 Show more cards
               </button>
             </div>
@@ -114,7 +132,7 @@ const PsychicControls = ({ roundState, guesser }) => {
             </div>
           )}
           <button
-            className="block py-1 px-3 border rounded-lg"
+            className="block py-1 px-3 border rounded-lg hover:bg-gray-300"
             onClick={() => {
               // If showing the custom card UX, clear the selection
               if (!showCustomCard) {
