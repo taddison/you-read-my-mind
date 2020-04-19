@@ -1,10 +1,10 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { mutate } from "swr";
 import { ApiRoutes, RoundStates, ScoreRange } from "../consts";
 
 const Card = ({ left, right, selected = false, onClick }) => {
   return (
-    <div className="w-1/2 px-4" onClick={onClick}>
+    <div className="w-1/3 px-4" onClick={onClick}>
       <div
         className={`px-4 flex flex-row border rounded-lg font-semibold italic hover:border-gray-700 ${
           selected ? "border-gray-700" : ""
@@ -17,26 +17,29 @@ const Card = ({ left, right, selected = false, onClick }) => {
   );
 };
 
-const PsychicControls = ({ roundState, secretScore, guesser }) => {
-  const psychicSubject = useRef(null);
-  const [selectedCard, setSelectedCard] = useState(null);
-  const psychicScore = useRef(null);
-  const customFrom = useRef(null);
-  const customTo = useRef(null);
+const PsychicControls = ({ roundState, guesser }) => {
   const [cards, setCards] = useState([]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const [showCustomCard, setShowCustomCard] = useState(false);
+  const [selectedCardId, setSelectedCardId] = useState(null);
+  const [psychicSubject, setPsychicSubject] = useState("");
+  const [psychicScore, setPsychicScore] = useState("");
+  const [leftStatement, setLeftStatement] = useState("");
+  const [rightStatement, setRightStatement] = useState("");
+
+  const setSecrets = async () => {
+    // Validation
+
     await fetch("/api/setPsychicSecrets", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        psychicSubject: psychicSubject.current.value,
-        leftStatement: selectedCard.from,
-        rightStatement: selectedCard.to,
-        psychicScore: psychicScore.current.value,
+        psychicSubject,
+        leftStatement,
+        rightStatement,
+        psychicScore,
       }),
     });
     mutate(ApiRoutes.GetGameState);
@@ -54,76 +57,105 @@ const PsychicControls = ({ roundState, secretScore, guesser }) => {
         from: "Sane",
         to: "Insane",
       },
+      {
+        id: 3,
+        from: "Tired",
+        to: "Wired",
+      },
     ]);
   }, []);
 
   return (
     <div className="max-w-6xl mx-auto mt-4">
       {roundState === RoundStates.SettingSecrets && (
-        <form onSubmit={handleSubmit}>
+        <div>
           <h2 className="text-lg mb-4">Select a Subject</h2>
 
-          <div className="flex">
-            {cards.map((card) => {
-              return (
-                <Card
-                  key={card.id}
-                  left={card.from}
-                  right={card.to}
-                  selected={selectedCard?.id === card.id}
-                  onClick={() => {
-                    setSelectedCard(card);
-                  }}
-                />
-              );
-            })}
-          </div>
-
-          <div>
-            <label htmlFor="custom-card">
-              From: <input placeholder="from" ref={customFrom} />
-              To: <input placeholder="to" ref={customTo} />
-            </label>
-            <input
-              type="radio"
-              checked={selectedCard?.id === "custom"}
-              onChange={() =>
-                setSelectedCard({
-                  id: "custom",
-                  from: customFrom.current.value,
-                  to: customTo.current.value,
-                })
+          {!showCustomCard && (
+            <div>
+              <div className="flex">
+                {cards.map((card) => {
+                  return (
+                    <Card
+                      key={card.id}
+                      left={card.from}
+                      right={card.to}
+                      selected={selectedCardId === card.id}
+                      onClick={() => {
+                        setSelectedCardId(card.id);
+                        setLeftStatement(card.from);
+                        setRightStatement(card.to);
+                      }}
+                    />
+                  );
+                })}
+              </div>
+              <button className="block py-1 px-3 border rounded-lg">
+                Show more cards
+              </button>
+            </div>
+          )}
+          {showCustomCard && (
+            <div>
+              From:{" "}
+              <input
+                placeholder="From Something"
+                value={leftStatement}
+                onChange={(e) => setLeftStatement(e.target.value)}
+              />
+              To:{" "}
+              <input
+                placeholder="To Something"
+                value={rightStatement}
+                onChange={(e) => setRightStatement(e.target.value)}
+              />
+            </div>
+          )}
+          <button
+            className="block py-1 px-3 border rounded-lg"
+            onClick={() => {
+              // If showing the custom card UX, clear the selection
+              if (!showCustomCard) {
+                setSelectedCardId(null);
+                setLeftStatement("");
+                setRightStatement("");
               }
-            />
-          </div>
+
+              setShowCustomCard((s) => !s);
+            }}
+          >
+            {showCustomCard ? "Pick an existing card" : "Write my own card"}
+          </button>
+
           <h2 className="text-lg mt-6 mb-2">Decide on a word or phrase</h2>
           <input
             className="py-2 px-4 rounded border"
             placeholder="It could be anything"
-            ref={psychicSubject}
+            value={psychicSubject}
+            onChange={(e) => setPsychicSubject(e.target.value)}
           />
 
           <h2 className="text-lg mt-6 mb-2">Assign a Score</h2>
-          {selectedCard && (
+          {(leftStatement.length > 0 && rightStatement.length > 0 && psychicSubject.length > 0) && (
             <div className="text-md italic">
-              From {selectedCard.from} ({ScoreRange.Min}) to {selectedCard.to} (
-              {ScoreRange.Max}) where would you place{" "}
-              {psychicSubject.current.value}?
+              From {leftStatement} ({ScoreRange.Min}) to {rightStatement} (
+              {ScoreRange.Max}) where would you place {psychicSubject}?
             </div>
           )}
           <input
             className="py-2 px-4 rounded border"
+            value={psychicScore}
             placeholder={`${ScoreRange.Min} to ${ScoreRange.Max}`}
-            ref={psychicScore}
+            onChange={(e) => setPsychicScore(e.target.value)}
           />
 
           <button
             className="block mt-8 font-semibold py-2 px-4 tracking-wider border rounded hover:bg-gray-300"
-            type="submit"
+            onClick={setSecrets}
           >
             Start the Guessing
           </button>
-        </form>
+        </div>
       )}
       {(roundState === RoundStates.WaitingForPlayers ||
         roundState === RoundStates.Finished) &&
