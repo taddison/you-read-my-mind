@@ -16,9 +16,7 @@ Supports multiple backends:
 - Add an admin page to clear our test data in prod
   - And/Or - GameID per environment
 - Psychic Controls
-  - Update UI for custom card
-  - Replace useRef with useState
-  - Reveal UI step by step
+  - Update buttons/spacing
 - Card library
   - Add to the backend
   - Add an API
