@@ -27,7 +27,7 @@ Supports multiple backends:
 
 ## Configuring LocalDb
 
-Clone and run [https://github.com/taddison/you-read-my-mind-local]
+Clone and run https://github.com/taddison/you-read-my-mind-local
 
 ## Configuring FaunaDb
 
