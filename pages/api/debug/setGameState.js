@@ -58,6 +58,11 @@ const defaultPlayers = () => {
 };
 
 export default (req, res) => {
+  if (process.env.NODE_ENV === "production") {
+    res.status(404).end();
+    return;
+  }
+
   addSession(req);
   const { sessionId } = req;
   const { state, gameId } = req.body;
@@ -85,7 +90,11 @@ export default (req, res) => {
       setGameState(defaultPlayers(), gameId, defaultRound());
       break;
     case "waiting-others-asplayer":
-      setGameState([...defaultPlayers(), { sessionId, name }], gameId, defaultRound());
+      setGameState(
+        [...defaultPlayers(), { sessionId, name }],
+        gameId,
+        defaultRound()
+      );
       break;
     case "secrets-me-psychic":
       setGameState(playersTesterAsPsychic, gameId, {
