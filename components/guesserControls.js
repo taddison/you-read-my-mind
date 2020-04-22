@@ -4,11 +4,11 @@ import { ScoreRange } from "../consts";
 
 const { Min, Max } = ScoreRange;
 
-const GuesserControls = ({ round, refreshGameState }) => {
+const GuesserControls = ({ round, refreshGameState, gameId }) => {
   const [guessedScore, setGuessedScore] = useState(round.guessedScore ?? 0);
 
   const submitGuess = async () => {
-    await fetch("/api/setGuessedScore", {
+    await fetch(`/api/game/${gameId}/setGuessedScore`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -21,7 +21,7 @@ const GuesserControls = ({ round, refreshGameState }) => {
   };
 
   const confirmGuess = async () => {
-    await fetch("/api/confirmGuessedScore", {
+    await fetch(`/api/game/${gameId}/confirmGuessedScore`, {
       method: "POST",
     });
     refreshGameState();

@@ -3,7 +3,7 @@ import React from "react";
 import PsychicControls from "./psychicControls";
 import GuesserControls from "./guesserControls";
 
-const PlayerControls = ({ gameState, sessionId, refreshGameState }) => {
+const PlayerControls = ({ gameState, sessionId, gameId, refreshGameState }) => {
   if (!gameState) return <div>Loading...</div>;
 
   const isPsychic = gameState?.round?.psychic === sessionId;
@@ -16,9 +16,10 @@ const PlayerControls = ({ gameState, sessionId, refreshGameState }) => {
           roundState={gameState?.round?.state}
           guesser={gameState?.round?.guesser}
           refreshGameState={refreshGameState}
+          gameId={gameId}
         />
       }
-      {isGuesser && <GuesserControls roundState={gameState?.round?.state} round={gameState?.round} refreshGameState={refreshGameState} />}
+      {isGuesser && <GuesserControls roundState={gameState?.round?.state} round={gameState?.round} refreshGameState={refreshGameState} gameId={gameId} />}
     </div>
   );
 };

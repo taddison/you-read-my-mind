@@ -25,7 +25,7 @@ const Card = ({ left, right, selected = false, onClick }) => {
   );
 };
 
-const PsychicControls = ({ roundState, guesser, refreshGameState }) => {
+const PsychicControls = ({ roundState, guesser, refreshGameState, gameId }) => {
   const [cards, setCards] = useState([]);
   const [cardSelection, setCardSelection] = useState([]);
 
@@ -39,7 +39,7 @@ const PsychicControls = ({ roundState, guesser, refreshGameState }) => {
   const setSecrets = async () => {
     // Validation
 
-    await fetch("/api/setPsychicSecrets", {
+    await fetch(`/api/game/${gameId}/setPsychicSecrets`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -205,7 +205,7 @@ const PsychicControls = ({ roundState, guesser, refreshGameState }) => {
         <button
           type="button"
           onClick={async (e) => {
-            await fetch("/api/startGame", {
+            await fetch(`/api/game/${gameId}/startGame`, {
               method: "POST",
             });
             refreshGameState();
