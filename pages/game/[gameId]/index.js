@@ -45,7 +45,7 @@ const Game = ({ sessionId }) => {
               <PlayerControls gameState={gameState} sessionId={sessionId} gameId={gameId} refreshGameState={refreshGameState}/>
             </section>
             <section className="flex flex-col">
-              <PlayerList playerList={gameState?.players} sessionId={sessionId} refreshGameState={refreshGameState} />
+              <PlayerList playerList={gameState?.players} sessionId={sessionId} gameId={gameId} refreshGameState={refreshGameState} />
               <JoinLeaveControls isPlayerInGame={isPlayerInGame} refreshGameState={refreshGameState} />
             </section>
           </>

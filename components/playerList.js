@@ -1,8 +1,8 @@
 import React from "react";
 
-const PlayerList = ({ playerList = [], sessionId = "", refreshGameState }) => {
+const PlayerList = ({ playerList = [], sessionId = "", gameId, refreshGameState }) => {
   const takeRole = async (roleName) => {
-    await fetch('/api/takeRole', {
+    await fetch(`/api/game/${gameId}/takeRole`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -13,9 +13,10 @@ const PlayerList = ({ playerList = [], sessionId = "", refreshGameState }) => {
   };
 
   const relinquishRole = async () => {
-    await fetch('/api/relinquishRole', {
+    await fetch(`/api/game/${gameId}/relinquishRole`, {
       method: "POST",
     });
+    refreshGameState();
   };
 
   const takeGuesser = async () => {
