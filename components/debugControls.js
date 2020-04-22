@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { mutate } from "swr";
-import { ApiRoutes } from "../consts";
 
 const gameStates = [
   "waiting-empty",
@@ -17,7 +15,7 @@ const gameStates = [
   "finished-me-other",
 ];
 
-const DebugControls = () => {
+const DebugControls = ({refreshGameState}) => {
   const [visible, setVisible] = useState(true);
 
   const setGameState = async (state) => {
@@ -28,7 +26,7 @@ const DebugControls = () => {
       },
       body: JSON.stringify({ state }),
     });
-    mutate(ApiRoutes.GetGameState);
+    refreshGameState();
   };
 
   return (

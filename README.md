@@ -21,9 +21,7 @@ Supports multiple backends:
   - Add to the backend
   - Add an API
 - gameId needs to flow to all game-related API calls
-  - Mutate also needs updating to mutate the appropriate game state
   - gameId will need to flow to all child components
-  - Might be worth using context/redux
 
 ## Configuring LocalDb
 

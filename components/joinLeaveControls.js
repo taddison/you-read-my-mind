@@ -1,8 +1,6 @@
 import React, { useRef } from "react";
-import { mutate } from "swr";
-import { ApiRoutes } from "../consts";
 
-const JoinLeaveControls = ({ isPlayerInGame }) => {
+const JoinLeaveControls = ({ isPlayerInGame, refreshGameState }) => {
   const playerName = useRef(null);
 
   return (
@@ -14,7 +12,7 @@ const JoinLeaveControls = ({ isPlayerInGame }) => {
             await fetch("/api/removePlayer", {
               method: "POST",
             });
-            mutate(ApiRoutes.GetGameState);
+            refreshGameState();
           }}
         >
           Remove Me
@@ -46,7 +44,7 @@ const JoinLeaveControls = ({ isPlayerInGame }) => {
                 },
                 body: JSON.stringify({ name: playerName.current.value }),
               });
-              mutate(ApiRoutes.GetGameState);
+              refreshGameState()
             }}
           >
             Join

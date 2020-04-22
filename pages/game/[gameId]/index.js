@@ -1,5 +1,5 @@
 import React from "react";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import cookie, { serialize } from "cookie";
 import { useRouter } from "next/router";
 import { CookieNames, ApiRoutes } from "../../../consts";
@@ -18,7 +18,12 @@ const Game = ({ sessionId }) => {
   const router = useRouter();
   const { gameId } = router.query;
 
-  const { data: gameState, error } = useSWR(`${ApiRoutes.GetGameState}/${gameId}`, fetcher);
+  const gameStateRoute = `${ApiRoutes.GetGameState}/${gameId}`;
+  const refreshGameState = () => {
+    mutate(gameStateRoute);
+  }
+
+  const { data: gameState, error } = useSWR(gameStateRoute, fetcher);
   const isPlayerInGame = gameState?.players?.find(
     (p) => p.sessionId === sessionId
   );
@@ -37,16 +42,16 @@ const Game = ({ sessionId }) => {
           <>
             <section className="flex flex-1 flex-col">
               <GameView gameState={gameState} />
-              <PlayerControls gameState={gameState} sessionId={sessionId} />
+              <PlayerControls gameState={gameState} sessionId={sessionId} refreshGameState={refreshGameState}/>
             </section>
             <section className="flex flex-col">
-              <PlayerList playerList={gameState?.players} sessionId={sessionId} />
-              <JoinLeaveControls isPlayerInGame={isPlayerInGame} />
+              <PlayerList playerList={gameState?.players} sessionId={sessionId} refreshGameState={refreshGameState} />
+              <JoinLeaveControls isPlayerInGame={isPlayerInGame} refreshGameState={refreshGameState} />
             </section>
           </>
         )}
       </main>
-      {process.env.NODE_ENV === "development" && <DebugControls />}
+      {process.env.NODE_ENV === "development" && <DebugControls refreshGameState={refreshGameState} />}
       <footer className="bg-gray-200 p-1">
         <small>SessionId: {sessionId}</small>
       </footer>

@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { ApiRoutes } from "../consts";
-import { mutate } from "swr";
 import Slider from "rc-slider";
 import { ScoreRange } from "../consts";
 
 const { Min, Max } = ScoreRange;
 
-const GuesserControls = ({ round }) => {
+const GuesserControls = ({ round, refreshGameState }) => {
   const [guessedScore, setGuessedScore] = useState(round.guessedScore ?? 0);
 
   const submitGuess = async () => {
@@ -19,14 +17,14 @@ const GuesserControls = ({ round }) => {
         guessedScore: guessedScore,
       }),
     });
-    mutate(ApiRoutes.GetGameState);
+    refreshGameState();
   };
 
   const confirmGuess = async () => {
     await fetch("/api/confirmGuessedScore", {
       method: "POST",
     });
-    mutate(ApiRoutes.GetGameState);
+    refreshGameState();
   };
 
   return (

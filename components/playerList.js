@@ -1,8 +1,7 @@
 import React from "react";
-import { mutate } from "swr";
 import { ApiRoutes } from "../consts";
 
-const PlayerList = ({ playerList = [], sessionId = "" }) => {
+const PlayerList = ({ playerList = [], sessionId = "", refreshGameState }) => {
   const takeRole = async (roleName) => {
     await fetch(ApiRoutes.TakeRole, {
       method: "POST",
@@ -11,7 +10,7 @@ const PlayerList = ({ playerList = [], sessionId = "" }) => {
       },
       body: JSON.stringify({ roleName }),
     });
-    mutate(ApiRoutes.GetGameState);
+    refreshGameState();
   };
 
   const relinquishRole = async () => {

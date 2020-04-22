@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { mutate } from "swr";
-import { ApiRoutes, RoundStates, ScoreRange } from "../consts";
+import { RoundStates, ScoreRange } from "../consts";
 
 // https://stackoverflow.com/a/6274381
 function shuffle(a) {
@@ -26,7 +25,7 @@ const Card = ({ left, right, selected = false, onClick }) => {
   );
 };
 
-const PsychicControls = ({ roundState, guesser }) => {
+const PsychicControls = ({ roundState, guesser, refreshGameState }) => {
   const [cards, setCards] = useState([]);
   const [cardSelection, setCardSelection] = useState([]);
 
@@ -52,7 +51,7 @@ const PsychicControls = ({ roundState, guesser }) => {
         psychicScore,
       }),
     });
-    mutate(ApiRoutes.GetGameState);
+    refreshGameState();
   };
 
   useEffect(() => {
@@ -209,7 +208,7 @@ const PsychicControls = ({ roundState, guesser }) => {
             await fetch("/api/startGame", {
               method: "POST",
             });
-            mutate(ApiRoutes.GetGameState);
+            refreshGameState();
           }}
         >
           Let's start
