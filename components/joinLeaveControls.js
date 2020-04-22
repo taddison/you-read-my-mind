@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 
-const JoinLeaveControls = ({ isPlayerInGame, refreshGameState }) => {
+const JoinLeaveControls = ({ isPlayerInGame, refreshGameState, gameId }) => {
   const playerName = useRef(null);
 
   return (
@@ -9,7 +9,7 @@ const JoinLeaveControls = ({ isPlayerInGame, refreshGameState }) => {
         <button
           className="rounded bg-gray-400 py-1 px-2"
           onClick={async () => {
-            await fetch("/api/removePlayer", {
+            await fetch(`/api/game/${gameId}/removePlayer`, {
               method: "POST",
             });
             refreshGameState();
@@ -37,7 +37,7 @@ const JoinLeaveControls = ({ isPlayerInGame, refreshGameState }) => {
                 return;
               }
 
-              await fetch("/api/addPlayer", {
+              await fetch(`/api/game/${gameId}/addPlayer`, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",

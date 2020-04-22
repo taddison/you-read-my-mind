@@ -22,6 +22,7 @@ Supports multiple backends:
   - Add an API
 - gameId needs to flow to all game-related API calls
   - gameId will need to flow to all child components
+- Sessions should be linked to games
 
 ## Configuring LocalDb
 
