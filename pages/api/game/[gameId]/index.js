@@ -1,5 +1,5 @@
-import { getGameState } from "../../../lib/gameStateManager";
-import addSession from "../../../lib/addSession";
+import { getGameState } from "../../../../lib/gameStateManager";
+import addSession from "../../../../lib/addSession";
 
 export default async (req, res) => {
   addSession(req);

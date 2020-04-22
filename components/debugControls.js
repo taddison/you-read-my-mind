@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 
 const gameStates = [
   "waiting-empty",
@@ -16,6 +17,8 @@ const gameStates = [
 ];
 
 const DebugControls = ({refreshGameState}) => {
+  const router = useRouter();
+  const { gameId } = router.query;
   const [visible, setVisible] = useState(true);
 
   const setGameState = async (state) => {
@@ -24,7 +27,7 @@ const DebugControls = ({refreshGameState}) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ state }),
+      body: JSON.stringify({ state, gameId }),
     });
     refreshGameState();
   };
