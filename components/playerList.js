@@ -1,9 +1,8 @@
 import React from "react";
-import { ApiRoutes } from "../consts";
 
 const PlayerList = ({ playerList = [], sessionId = "", refreshGameState }) => {
   const takeRole = async (roleName) => {
-    await fetch(ApiRoutes.TakeRole, {
+    await fetch('/api/takeRole', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -14,7 +13,7 @@ const PlayerList = ({ playerList = [], sessionId = "", refreshGameState }) => {
   };
 
   const relinquishRole = async () => {
-    await fetch(ApiRoutes.RelinquishRole, {
+    await fetch('/api/relinquishRole', {
       method: "POST",
     });
   };

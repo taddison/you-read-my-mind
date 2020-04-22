@@ -2,7 +2,7 @@ import React from "react";
 import useSWR, { mutate } from "swr";
 import cookie, { serialize } from "cookie";
 import { useRouter } from "next/router";
-import { CookieNames, ApiRoutes } from "../../../consts";
+import { CookieNames } from "../../../consts";
 import PlayerList from "../../../components/playerList";
 import JoinLeaveControls from "../../../components/joinLeaveControls";
 import PlayerControls from "../../../components/playerControls";
@@ -18,7 +18,7 @@ const Game = ({ sessionId }) => {
   const router = useRouter();
   const { gameId } = router.query;
 
-  const gameStateRoute = `${ApiRoutes.GetGameState}/${gameId}`;
+  const gameStateRoute = `/api/game/${gameId}`;
   const refreshGameState = () => {
     mutate(gameStateRoute);
   }
@@ -42,7 +42,7 @@ const Game = ({ sessionId }) => {
           <>
             <section className="flex flex-1 flex-col">
               <GameView gameState={gameState} />
-              <PlayerControls gameState={gameState} sessionId={sessionId} refreshGameState={refreshGameState}/>
+              <PlayerControls gameState={gameState} sessionId={sessionId} gameId={gameId} refreshGameState={refreshGameState}/>
             </section>
             <section className="flex flex-col">
               <PlayerList playerList={gameState?.players} sessionId={sessionId} refreshGameState={refreshGameState} />

@@ -9,12 +9,6 @@ export const RoundStates = {
   Finished: "Finished"
 };
 
-export const ApiRoutes = {
-  GetGameState: "/api/game",
-  TakeRole: "/api/takeRole",
-  RelinquishRole: "/api/relinquishRole"
-};
-
 export const ScoreRange = {
   Max: 15,
   Min: -15
