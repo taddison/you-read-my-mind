@@ -2,12 +2,12 @@ import React from "react";
 import useSWR, { mutate } from "swr";
 import cookie, { serialize } from "cookie";
 import { useRouter } from "next/router";
-import { CookieNames } from "../../../consts";
-import PlayerList from "../../../components/playerList";
-import JoinLeaveControls from "../../../components/joinLeaveControls";
-import PlayerControls from "../../../components/playerControls";
-import DebugControls from "../../../components/debugControls";
-import GameView from "../../../components/gameView";
+import { CookieNames } from "consts";
+import PlayerList from "components/playerList";
+import JoinLeaveControls from "components/joinLeaveControls";
+import PlayerControls from "components/playerControls";
+import DebugControls from "components/debugControls";
+import GameView from "components/gameView";
 const crypto = require("crypto");
 
 const fetcher = (...args) => {
