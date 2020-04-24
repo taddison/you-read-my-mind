@@ -3,9 +3,9 @@ import {
   getSessions,
   createSession,
   deleteSession,
-} from "../../../lib/store/APP_TARGET";
-import { RoundStates } from "../../../consts";
-import addSession from "../../../lib/addSession";
+} from "lib/store/APP_TARGET";
+import { RoundStates } from "consts";
+import addSession from "lib/addSession";
 
 const setGameState = async (players, gameId, round) => {
   await setGame(gameId, round);
@@ -65,6 +65,7 @@ export default (req, res) => {
 
   addSession(req);
   const { sessionId } = req;
+  console.log(sessionId)
   const { state, gameId } = req.body;
   const name = "TESTER";
 

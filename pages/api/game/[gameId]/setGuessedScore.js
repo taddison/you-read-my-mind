@@ -1,5 +1,5 @@
-import addSession from "../../../../lib/addSession";
-import { setGuessedScore } from "../../../../lib/gameStateManager";
+import addSession from "lib/addSession";
+import { setGuessedScore } from "lib/gameStateManager";
 
 export default async (req, res) => {
   addSession(req);
