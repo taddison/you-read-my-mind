@@ -72,7 +72,7 @@ export async function getServerSideProps(context) {
 
     context.res.setHeader(
       "Set-Cookie",
-      serialize(CookieNames.Session, sessionId, { expires })
+      serialize(CookieNames.Session, sessionId, { expires, path: "/" })
     );
   }
 
