@@ -19,7 +19,7 @@ const PlayerControls = ({ gameState, sessionId, gameId, refreshGameState }) => {
           gameId={gameId}
         />
       }
-      {isGuesser && <GuesserControls roundState={gameState?.round?.state} round={gameState?.round} refreshGameState={refreshGameState} gameId={gameId} />}
+      {isGuesser && <GuesserControls round={gameState?.round} refreshGameState={refreshGameState} gameId={gameId} />}
     </div>
   );
 };
