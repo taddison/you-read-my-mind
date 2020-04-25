@@ -1,6 +1,6 @@
 import React from "react";
-import { RoundStates, ScoreRange } from "../consts";
-import Gauge from "../components/gauge";
+import { RoundStates, ScoreRange } from "consts";
+import Gauge from "components/gauge";
 
 const GameView = ({ gameState }) => {
   if (!gameState) return <div>Loading...</div>;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { RoundStates, ScoreRange } from "../consts";
+import { RoundStates, ScoreRange } from "consts";
 
 // https://stackoverflow.com/a/6274381
 function shuffle(a) {

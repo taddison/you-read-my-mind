@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Slider from "rc-slider";
-import { ScoreRange } from "../consts";
+import { ScoreRange } from "consts";
 
 const { Min, Max } = ScoreRange;
 
