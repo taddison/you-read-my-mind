@@ -87,7 +87,6 @@ const PlayerList = ({ playerList = [], sessionId = "", gameId, refreshGameState 
               {playerList
                 .filter((p) => !p.isPsychic && !p.isGuesser)
                 .map((player) => {
-                  console.log(playerList)
                   return <li key={player.sessionId}>{player.name}</li>;
                 })}
             </ul>
