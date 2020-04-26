@@ -22,6 +22,7 @@ Supports multiple backends:
   - Add an API
 - Leaving the game when in a role should vacate the role
 - Rotate roles when the game finishes (start game, maybe an explicit rotate roles option?)
+- Record historic games
 
 ### Transactions
 
@@ -40,7 +41,7 @@ Not essential as the worst case is someone has to refresh/type their name again 
 
 ### Updates
 
-Updates to the game are a little janky if the backend API doesn't have immediate read-your-writes (and we don't assume the update works and directly update the client side). Something like Pusher would help to broadcast notifications of state changes.
+Currently no polling, so anyone in the game would need to refresh for updates.  Could be solved with polling, or using something like Pusher.
 
 ## Configuring LocalDb
 

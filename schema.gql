@@ -1,6 +1,6 @@
 type Session {
   sessionId: String!
-  gameId: String!
+  game: Game!
   name: String!
 }
 
@@ -13,9 +13,9 @@ type Game {
   psychicSubject: String
   psychicScore: Int
   guessedScore: Int
+  sessions: [Session!] @relation
 }
 
 type Query {
-  sessions: [Session]
   games: [Game]
 }
