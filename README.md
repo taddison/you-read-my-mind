@@ -19,7 +19,6 @@ Supports multiple backends:
 - Card library
   - Add to the backend
   - Add an API
-- Sessions should be linked to games
 
 ## Configuring LocalDb
 

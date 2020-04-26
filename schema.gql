@@ -1,5 +1,6 @@
 type Session {
   sessionId: String!
+  gameId: String!
   name: String!
 }
 
