@@ -1,6 +1,11 @@
 import React from "react";
 
-const PlayerList = ({ playerList = [], sessionId = "", gameId, refreshGameState }) => {
+const PlayerList = ({
+  playerList = [],
+  sessionId = "",
+  gameId,
+  refreshGameState,
+}) => {
   const takeRole = async (roleName) => {
     await fetch(`/api/game/${gameId}/takeRole`, {
       method: "POST",
@@ -29,6 +34,9 @@ const PlayerList = ({ playerList = [], sessionId = "", gameId, refreshGameState 
 
   const psychic = playerList.find((p) => p.isPsychic);
   const guesser = playerList.find((p) => p.isGuesser);
+  const playerCanTakeARole =
+    playerList.find((p) => p.sessionId === sessionId) &&
+    !(psychic?.sessionId === sessionId || guesser?.sessionId === sessionId);
   const otherPlayers = playerList.filter((p) => !p.isPsychic && !p.isGuesser);
 
   return (
@@ -44,13 +52,16 @@ const PlayerList = ({ playerList = [], sessionId = "", gameId, refreshGameState 
                 <div>
                   {psychic.name}{" "}
                   {psychic.sessionId === sessionId && (
-                    <button onClick={relinquishRole}>Leave Role</button>
+                    <button className="italic text-sm" onClick={relinquishRole}>Leave Role</button>
                   )}
                 </div>
               ) : (
                 <div>
-                  Waiting for a Psychic{" "}
-                  <button onClick={takePsychic}>Become the Psychic</button>
+                  {playerCanTakeARole ? (
+                    <button onClick={takePsychic}>Become the Psychic</button>
+                  ) : (
+                    "Waiting for a Psychic"
+                  )}
                 </div>
               )}
             </div>
@@ -64,13 +75,16 @@ const PlayerList = ({ playerList = [], sessionId = "", gameId, refreshGameState 
                 <div>
                   {guesser.name}{" "}
                   {guesser.sessionId === sessionId && (
-                    <button onClick={relinquishRole}>Leave Role</button>
+                    <button className="italic text-sm" onClick={relinquishRole}>Leave Role</button>
                   )}
                 </div>
               ) : (
                 <div>
-                  Waiting for a Guesser{" "}
-                  <button onClick={takeGuesser}>Become the Guesser</button>
+                  {playerCanTakeARole ? (
+                    <button onClick={takeGuesser}>Become the Guesser</button>
+                  ) : (
+                    "Waiting for a Guesser"
+                  )}
                 </div>
               )}
             </div>
