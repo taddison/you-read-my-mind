@@ -14,7 +14,6 @@ Supports multiple backends:
   - Several of the mutate APIs could trivially return the updated `game` state, and would obviate the need for the set/get pair of requests
   - Seems to particularly impact the player list rather than round state
 - Add an admin page to clear our test data in prod
-  - And/Or - GameID per environment
 - Psychic Controls
   - Update buttons/spacing
 - Card library

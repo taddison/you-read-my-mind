@@ -10,13 +10,13 @@ import addSession from "lib/addSession";
 const setGameState = async (players, gameId, round) => {
   await setGame(gameId, round);
 
-  const sessions = await getSessions();
+  const sessions = await getSessions(gameId);
   for (let session of sessions) {
-    await deleteSession(session._id);
+    await deleteSession(session.sessionId, gameId);
   }
 
   for (let player of players) {
-    await createSession(player.sessionId, player.name);
+    await createSession(player.sessionId, gameId, player.name);
   }
 };
 
