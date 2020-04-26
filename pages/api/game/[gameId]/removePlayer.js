@@ -6,6 +6,6 @@ export default async (req, res) => {
   const sessionId = req.sessionId;
   const { gameId } = req.query;
 
-  await removePlayer(sessionId), gameId;
+  await removePlayer(sessionId, gameId);
   res.status(204).end();
 };
