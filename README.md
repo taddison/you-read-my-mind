@@ -3,6 +3,7 @@
 An implementation of [Wavelength].
 
 Supports multiple backends:
+
 - LocalDb - `yarn dev:localdb`
 - FaunaDb - `yarn dev`
 
@@ -19,6 +20,27 @@ Supports multiple backends:
 - Card library
   - Add to the backend
   - Add an API
+- Leaving the game when in a role should vacate the role
+- Rotate roles when the game finishes (start game, maybe an explicit rotate roles option?)
+
+### Transactions
+
+A couple of operations should probably be transactional:
+
+- Take role (first wins, not last wins)
+  - Cannot take multiple roles
+- Join game
+  - If amending the player list should support multiple people joining at the same time (read list then append)
+- Leave game
+  - As above - list should mutate transactionally
+
+It is also a simpler API to have a single game object (rather than game + sessions), so we have a single API call.  This probably means the store APIs need refactoring to remove the requirement for transactions to exist in the game state manager (so rather than calling `getGame` and `setGame` there would be a granular `addPlayerToGame` method).
+
+Not essential as the worst case is someone has to refresh/type their name again (wait their turn to be the psychic/guesser).
+
+### Updates
+
+Updates to the game are a little janky if the backend API doesn't have immediate read-your-writes (and we don't assume the update works and directly update the client side). Something like Pusher would help to broadcast notifications of state changes.
 
 ## Configuring LocalDb
 
