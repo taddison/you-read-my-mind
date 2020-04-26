@@ -21,9 +21,11 @@ const Game = ({ sessionId }) => {
   const gameStateRoute = `/api/game/${gameId}`;
   const refreshGameState = () => {
     mutate(gameStateRoute);
-  }
+  };
 
-  const { data: gameState, error } = useSWR(gameStateRoute, fetcher);
+  const { data: gameState, error } = useSWR(gameStateRoute, fetcher, {
+    refreshInterval: 0,
+  });
   const isPlayerInGame = gameState?.players?.find(
     (p) => p.sessionId === sessionId
   );
@@ -42,16 +44,32 @@ const Game = ({ sessionId }) => {
           <>
             <section className="flex flex-1 flex-col">
               <GameView gameState={gameState} />
-              <PlayerControls gameState={gameState} sessionId={sessionId} gameId={gameId} refreshGameState={refreshGameState}/>
+              <PlayerControls
+                gameState={gameState}
+                sessionId={sessionId}
+                gameId={gameId}
+                refreshGameState={refreshGameState}
+              />
             </section>
             <section className="flex flex-col">
-              <PlayerList playerList={gameState?.players} sessionId={sessionId} gameId={gameId} refreshGameState={refreshGameState} />
-              <JoinLeaveControls isPlayerInGame={isPlayerInGame} gameId={gameId} refreshGameState={refreshGameState} />
+              <PlayerList
+                playerList={gameState?.players}
+                sessionId={sessionId}
+                gameId={gameId}
+                refreshGameState={refreshGameState}
+              />
+              <JoinLeaveControls
+                isPlayerInGame={isPlayerInGame}
+                gameId={gameId}
+                refreshGameState={refreshGameState}
+              />
             </section>
           </>
         )}
       </main>
-      {process.env.NODE_ENV === "development" && <DebugControls refreshGameState={refreshGameState} />}
+      {process.env.NODE_ENV === "development" && (
+        <DebugControls refreshGameState={refreshGameState} />
+      )}
       <footer className="bg-gray-200 p-1">
         <small>SessionId: {sessionId}</small>
       </footer>
