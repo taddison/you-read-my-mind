@@ -4,7 +4,6 @@ import cookie, { serialize } from "cookie";
 import { useRouter } from "next/router";
 import { CookieNames } from "consts";
 import PlayerList from "components/playerList";
-import JoinLeaveControls from "components/joinLeaveControls";
 import PlayerControls from "components/playerControls";
 import DebugControls from "components/debugControls";
 import GameView from "components/gameView";
@@ -55,11 +54,6 @@ const Game = ({ sessionId }) => {
               <PlayerList
                 playerList={gameState?.players}
                 sessionId={sessionId}
-                gameId={gameId}
-                refreshGameState={refreshGameState}
-              />
-              <JoinLeaveControls
-                isPlayerInGame={isPlayerInGame}
                 gameId={gameId}
                 refreshGameState={refreshGameState}
               />

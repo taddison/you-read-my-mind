@@ -1,4 +1,5 @@
 import React from "react";
+import JoinInput from "components/joinInput";
 
 const PlayerList = ({
   playerList = [],
@@ -32,84 +33,68 @@ const PlayerList = ({
     await takeRole("psychic");
   };
 
-  const psychic = playerList.find((p) => p.isPsychic);
-  const guesser = playerList.find((p) => p.isGuesser);
-  const playerCanTakeARole =
-    playerList.find((p) => p.sessionId === sessionId) &&
-    !(psychic?.sessionId === sessionId || guesser?.sessionId === sessionId);
-  const otherPlayers = playerList.filter((p) => !p.isPsychic && !p.isGuesser);
+  const player = playerList.find((p) => p.sessionId === sessionId);
+  const isPlayerInGame = Boolean(player);
+  const isPlayerPsychic = player?.isPsychic;
+  const isPlayerGuesser = player?.isGuesser;
+  const isPlayerInRole = isPlayerPsychic || isPlayerGuesser;
+  const playerCanTakeARole = isPlayerInGame && !isPlayerInRole;
 
   return (
-    <div className="flex">
-      <div>
-        <ul>
-          <li className="bg-gray-200 pb-2 mb-4">
-            <div className="bg-gray-400 py-1 px-2 rounded mb-2 font-semibold">
-              Psychic
-            </div>
-            <div className="px-2">
-              {psychic ? (
-                <div>
-                  {psychic.name}{" "}
-                  {psychic.sessionId === sessionId && (
-                    <button className="italic text-sm" onClick={relinquishRole}>Leave Role</button>
-                  )}
-                </div>
-              ) : (
-                <div>
-                  {playerCanTakeARole ? (
-                    <button onClick={takePsychic}>Become the Psychic</button>
-                  ) : (
-                    "Waiting for a Psychic"
-                  )}
-                </div>
-              )}
-            </div>
-          </li>
-          <li className="bg-gray-200 pb-2">
-            <div className="bg-gray-400 py-1 px-2 rounded mb-2 font-semibold">
-              Guesser
-            </div>
-            <div className="px-2">
-              {guesser ? (
-                <div>
-                  {guesser.name}{" "}
-                  {guesser.sessionId === sessionId && (
-                    <button className="italic text-sm" onClick={relinquishRole}>Leave Role</button>
-                  )}
-                </div>
-              ) : (
-                <div>
-                  {playerCanTakeARole ? (
-                    <button onClick={takeGuesser}>Become the Guesser</button>
-                  ) : (
-                    "Waiting for a Guesser"
-                  )}
-                </div>
-              )}
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div>
-        {otherPlayers.length ? (
-          <div className="bg-gray-200">
-            <div className="bg-gray-400 py-1 px-2 rounded mb-2 font-semibold">
-              Players
-            </div>
-            <ul className="bg-gray-200 pb-2 px-2">
-              {playerList
-                .filter((p) => !p.isPsychic && !p.isGuesser)
-                .map((player) => {
-                  return <li key={player.sessionId}>{player.name}</li>;
-                })}
-            </ul>
+    <div className="flex flex-col max-w-xl">
+        <div className="mb-2">
+          <div className="py-1 px-2 rounded mb-2 font-semibold text-lg">
+            Players
           </div>
-        ) : (
-          ""
-        )}
+          <ul className="pb-2 px-2">
+            {playerList.length === 0 && <li>Nobody here yet!</li>}
+            {playerList.map((player) => {
+              return (
+                <li key={player.sessionId}>
+                  {player.name}{" "}
+                  {player.isGuesser && (
+                    <span className="font-semibold">the guesser ❓</span>
+                  )}
+                  {player.isPsychic && (
+                    <span className="font-semibold">the psychic 🤔</span>
+                  )}
+                  {player.sessionId === sessionId && (
+                    <span className="italic text-xs">(you)</span>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <div>
+          {!isPlayerInGame && (
+            <JoinInput gameId={gameId} refreshGameState={refreshGameState} />
+          )}
+          {playerCanTakeARole && (
+            <>
+              <button className="ml-2 py-2 px-3 border rounded-lg hover:bg-gray-300" onClick={takePsychic}>Become the Psychic</button>
+              <button className="ml-2 py-2 px-3 border rounded-lg hover:bg-gray-300" onClick={takeGuesser}>Become the Guesser</button>
+            </>
+          )}
+          {isPlayerInRole && (
+            <button className="ml-2 py-2 px-3 border rounded-lg hover:bg-gray-300" onClick={relinquishRole}>
+              Stop being the {isPlayerGuesser ? "Guesser" : "Psychic"}
+            </button>
+          )}
+          {isPlayerInGame && !isPlayerInRole && (
+            <button className="ml-2 py-2 px-3 border rounded-lg hover:bg-gray-300"
+              onClick={async () => {
+                await fetch(`/api/game/${gameId}/removePlayer`, {
+                  method: "POST",
+                });
+                refreshGameState();
+              }}
+            >
+              Leave Game
+            </button>
+          )}
+        </div>
       </div>
-    </div>
   );
 };
 
