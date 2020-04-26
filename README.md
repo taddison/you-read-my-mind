@@ -66,4 +66,39 @@ From the zeit template:
 
 > Purgecss takes a very straightforward approach to removing unused CSS. It simply searches an entire file for a string that matches a regular expression. As a result, class strings that are dynamically created in a template using string concatenation will be considered unused and removed from your stylesheet. Tailwind CSS addresses this problem in more detail in their documentation (https://tailwindcss.com/docs/controlling-file-size/#writing-purgeable-html).
 
+## GraphQL Queries
+
+```graphql
+mutation createGame {
+  createGame(data:{
+    state:"WaitingForPlayers"
+  }) {
+    _id
+  }
+}
+```
+
+```graphql
+query findGame{
+  game: findGameByID(id: "idhere") {
+    psychic,
+      guesser,
+      leftStatement,
+      rightStatement,
+      state,
+      psychicSubject,
+      psychicScore,
+      guessedScore,
+    sessions {
+      data {
+        _id,
+        name,
+        sessionId
+      }
+    }
+  }
+}
+```
+
+
 [wavelength]: https://www.wavelength.zone/
