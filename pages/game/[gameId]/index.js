@@ -23,7 +23,7 @@ const Game = ({ sessionId }) => {
   };
 
   const { data: gameState, error } = useSWR(gameStateRoute, fetcher, {
-    refreshInterval: 0,
+    refreshInterval: 10000,
   });
   const isPlayerInGame = gameState?.players?.find(
     (p) => p.sessionId === sessionId
