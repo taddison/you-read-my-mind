@@ -34,11 +34,13 @@ const PlayerList = ({
   };
 
   const player = playerList.find((p) => p.sessionId === sessionId);
-  const isPlayerInGame = Boolean(player);
-  const isPlayerPsychic = player?.isPsychic;
-  const isPlayerGuesser = player?.isGuesser;
+  const hasGuesser = !!playerList.find(p => p.isGuesser);
+  const hasPsychic = !!playerList.find(p => p.isPsychic);
+  const isPlayerInGame = !!player;
+  const isPlayerPsychic = player?.isPsychic ?? false;
+  const isPlayerGuesser = player?.isGuesser ?? false;
   const isPlayerInRole = isPlayerPsychic || isPlayerGuesser;
-  const playerCanTakeARole = isPlayerInGame && !isPlayerInRole;
+  const playerCanTakeARole = isPlayerInGame && !isPlayerInRole && !(hasGuesser && hasPsychic) ;
 
   return (
     <div className="flex flex-col max-w-xl">
