@@ -9,8 +9,8 @@ import DebugControls from "components/debugControls";
 import GameView from "components/gameView";
 const crypto = require("crypto");
 
-const fetcher = (...args) => {
-  return fetch(...args).then((res) => res.json());
+const fetcher = (input, init) => {
+  return fetch(input, init).then((res) => res.json());
 };
 
 const Game = ({ sessionId }) => {
