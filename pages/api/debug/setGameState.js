@@ -8,16 +8,16 @@ import { RoundStates } from "consts";
 import addSession from "lib/addSession";
 
 const setGameState = async (players, gameId, round) => {
-  await setGame(gameId, round);
-
   const game = await getGame(gameId);
   for (let session of game.sessions) {
     await deleteSession(session.sessionId, gameId);
   }
-
+  
   for (let player of players) {
     await createSession(player.sessionId, gameId, player.name);
   }
+
+  await setGame(gameId, round);
 };
 
 const blankRound = () => {
@@ -57,7 +57,7 @@ const defaultPlayers = () => {
   ];
 };
 
-export default (req, res) => {
+export default async (req, res) => {
   if (process.env.NODE_ENV === "production") {
     res.status(404).end();
     return;
@@ -84,57 +84,57 @@ export default (req, res) => {
 
   switch (req.body.state) {
     case "waiting-empty":
-      setGameState(emptyPlayers(), gameId, blankRound());
+      await setGameState(emptyPlayers(), gameId, blankRound());
       break;
     case "waiting-others":
-      setGameState(defaultPlayers(), gameId, defaultRound());
+      await setGameState(defaultPlayers(), gameId, defaultRound());
       break;
     case "waiting-others-asplayer":
-      setGameState(
+      await setGameState(
         [...defaultPlayers(), { sessionId, name }],
         gameId,
         defaultRound()
       );
       break;
     case "secrets-me-psychic":
-      setGameState(playersTesterAsPsychic, gameId, {
+      await setGameState(playersTesterAsPsychic, gameId, {
         ...defaultRound(),
         psychic: sessionId,
         state: RoundStates.SettingSecrets,
       });
       break;
     case "secrets-me-guesser":
-      setGameState(playersTesterAsGuesser, gameId, {
+      await setGameState(playersTesterAsGuesser, gameId, {
         ...defaultRound(),
         guesser: sessionId,
         state: RoundStates.SettingSecrets,
       });
       break;
     case "secrets-me-other":
-      setGameState(defaultPlayersWithTesterExtra, gameId, {
+      await setGameState(defaultPlayersWithTesterExtra, gameId, {
         ...defaultRound(),
         state: RoundStates.SettingSecrets,
       });
       break;
     case "guessing-me-psychic":
-      setGameState(playersTesterAsPsychic, gameId, {
+      await setGameState(playersTesterAsPsychic, gameId, {
         ...animalCrossingSecretsRound(),
         psychic: sessionId,
       });
       break;
     case "guessing-me-guesser":
-      setGameState(playersTesterAsGuesser, gameId, {
+      await setGameState(playersTesterAsGuesser, gameId, {
         ...animalCrossingSecretsRound(),
         guesser: sessionId,
       });
       break;
     case "guessing-me-other":
-      setGameState(defaultPlayersWithTesterExtra, gameId, {
+      await setGameState(defaultPlayersWithTesterExtra, gameId, {
         ...animalCrossingSecretsRound(),
       });
       break;
     case "finished-me-psychic":
-      setGameState(playersTesterAsPsychic, gameId, {
+      await setGameState(playersTesterAsPsychic, gameId, {
         ...animalCrossingSecretsRound(),
         guessedScore: 5,
         state: RoundStates.Finished,
@@ -142,7 +142,7 @@ export default (req, res) => {
       });
       break;
     case "finished-me-guesser":
-      setGameState(playersTesterAsGuesser, gameId, {
+      await setGameState(playersTesterAsGuesser, gameId, {
         ...animalCrossingSecretsRound(),
         guessedScore: 5,
         state: RoundStates.Finished,
@@ -150,7 +150,7 @@ export default (req, res) => {
       });
       break;
     case "finished-me-other":
-      setGameState(defaultPlayersWithTesterExtra, gameId, {
+      await setGameState(defaultPlayersWithTesterExtra, gameId, {
         ...animalCrossingSecretsRound(),
         guessedScore: 5,
         state: RoundStates.Finished,
