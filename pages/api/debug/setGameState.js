@@ -71,10 +71,14 @@ export default async (req, res) => {
   const playersTesterAsPsychic = [
     { sessionId: "guesser", name: "GuesserPlayer" },
     { sessionId, name },
+    { sessionId: "spectator", name: "spectator"},
+    { sessionId: "voyeur", name: "voyeur"},
   ];
   const playersTesterAsGuesser = [
     { sessionId: "psychic", name: "PsychicPlayer" },
     { sessionId, name },
+    { sessionId: "spectator", name: "spectator"},
+    { sessionId: "voyeur", name: "voyeur"},
   ];
 
   const defaultPlayersWithTesterExtra = [
