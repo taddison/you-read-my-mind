@@ -13,16 +13,11 @@ Supports multiple backends:
   - GraphQL mutations which don't check the return type won't throw any errors, and look like they're silently failing
 - Mutate's second argument might speed up the client UX
   - Several of the mutate APIs could trivially return the updated `game` state, and would obviate the need for the set/get pair of requests
-  - Seems to particularly impact the player list rather than round state
 - Add an admin page to clear our test data in prod
-- Psychic Controls
-  - Update buttons/spacing
 - Card library
   - Add to the backend
   - Add an API
-- Leaving the game when in a role should vacate the role
-- Rotate roles when the game finishes (start game, maybe an explicit rotate roles option?)
-- Record historic games
+- Record historic games (when the guess is confirmed)
 
 ### Transactions
 
