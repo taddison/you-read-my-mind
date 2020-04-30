@@ -42,14 +42,14 @@ const GuesserControls = ({ round, refreshGameState, gameId }) => {
             <div className="p-1 font-semibold">{Max}</div>
           </div>
           <div className="flex justify-center">
-            <button onClick={submitGuess} className="mr-2">
+            <button className="ml-2 py-2 px-3 border rounded-lg hover:bg-gray-300 mr-2" onClick={submitGuess}>
               Set Guess ({guessedScore})
             </button>
             {round.guessedScore !== null && (
               <button
                 onClick={confirmGuess}
                 disabled={round.guessedScore === null}
-                className="ml-2"
+                className="ml-2 py-2 px-3 border rounded-lg hover:bg-gray-300 mr-2"
               >
                 Confirm Guess
               </button>

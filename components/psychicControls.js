@@ -202,17 +202,27 @@ const PsychicControls = ({ roundState, guesser, refreshGameState, gameId }) => {
       {(roundState === RoundStates.WaitingForPlayers ||
         roundState === RoundStates.Finished) &&
       guesser ? (
+        <div className="flex justify-center">
         <button
+          className="ml-2 py-2 px-3 border rounded-lg hover:bg-gray-300"
           type="button"
           onClick={async (e) => {
+            const flipRoles = roundState === RoundStates.Finished;
+
             await fetch(`/api/game/${gameId}/startGame`, {
               method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ flipRoles }),
             });
+
             refreshGameState();
           }}
         >
-          Let's start
+          Start a new round
         </button>
+        </div>
       ) : (
         ""
       )}
