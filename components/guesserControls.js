@@ -45,13 +45,15 @@ const GuesserControls = ({ round, refreshGameState, gameId }) => {
             <button onClick={submitGuess} className="mr-2">
               Set Guess ({guessedScore})
             </button>
-            <button
-              onClick={confirmGuess}
-              disabled={round.guessedScore === null}
-              className="ml-2"
-            >
-              Confirm Guess
-            </button>
+            {round.guessedScore !== null && (
+              <button
+                onClick={confirmGuess}
+                disabled={round.guessedScore === null}
+                className="ml-2"
+              >
+                Confirm Guess
+              </button>
+            )}
           </div>
         </>
       )}
