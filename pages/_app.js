@@ -1,3 +1,4 @@
+import React from "react";
 import "styles/styles.css";
 import "rc-slider/assets/index.css";
 
