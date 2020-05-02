@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { RoundStates, ScoreRange } from "consts";
 import shuffle from "lib/shuffle";
+import { useIsMounted } from "lib/hooks/useIsMounted";
 
 const Card = ({ left, right, selected = false, onClick }) => {
   return (
@@ -20,6 +21,7 @@ const Card = ({ left, right, selected = false, onClick }) => {
 const PsychicControls = ({ roundState, guesser, refreshGameState, gameId }) => {
   const [cards, setCards] = useState([]);
   const [cardSelection, setCardSelection] = useState([]);
+  const isMounted = useIsMounted();
 
   const [showCustomCard, setShowCustomCard] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState(null);
@@ -47,23 +49,14 @@ const PsychicControls = ({ roundState, guesser, refreshGameState, gameId }) => {
   };
 
   useEffect(() => {
-    setCards([
-      {
-        id: 1,
-        from: "Bad",
-        to: "Good",
-      },
-      {
-        id: 2,
-        from: "Sane",
-        to: "Insane",
-      },
-      {
-        id: 3,
-        from: "Tired",
-        to: "Wired",
-      },
-    ]);
+    (async () => {
+      const result = await fetch('/api/cards');
+      const json = await result.json();
+      
+      if(!isMounted) return;
+
+      setCards(json);
+    })();
   }, []);
 
   const clearSelectedCard = () => {
