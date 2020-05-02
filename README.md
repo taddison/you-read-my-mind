@@ -14,9 +14,6 @@ Supports multiple backends:
 - Mutate's second argument might speed up the client UX
   - Several of the mutate APIs could trivially return the updated `game` state, and would obviate the need for the set/get pair of requests
 - Add an admin page to clear our test data in prod
-- Card library
-  - Add to the backend
-  - Add an API
 - Record historic games (when the guess is confirmed)
 
 ### Transactions

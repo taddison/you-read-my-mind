@@ -104,6 +104,7 @@ const PsychicControls = ({ roundState, guesser, refreshGameState, gameId }) => {
                   );
                 })}
               </div>
+              {cards.length > 3 && (
               <button
                 className="block py-1 px-3 border rounded-lg hover:bg-gray-300 my-2"
                 onClick={() => {
@@ -112,7 +113,7 @@ const PsychicControls = ({ roundState, guesser, refreshGameState, gameId }) => {
                 }}
               >
                 Show more cards
-              </button>
+              </button>)}
             </div>
           )}
           {showCustomCard && (

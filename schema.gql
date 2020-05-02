@@ -16,6 +16,12 @@ type Game {
   sessions: [Session!] @relation
 }
 
+type Card {
+  from: String
+  to: String
+}
+
 type Query {
   games: [Game]
+  cards: [Card]
 }
