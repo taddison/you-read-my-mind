@@ -10,6 +10,6 @@ export default async (req, res) => {
     const gameState = await getGameState(sessionId, gameId);
     res.status(200).json(gameState);
   } catch (err) {
-    res.status(500).json({message: err.message});
+    res.status(500).json({ message: err.message });
   }
 };

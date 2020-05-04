@@ -11,15 +11,21 @@ const PlayerControls = ({ gameState, sessionId, gameId, refreshGameState }) => {
 
   return (
     <div>
-      {isPsychic && 
+      {isPsychic && (
         <PsychicControls
           roundState={gameState?.round?.state}
           guesser={gameState?.round?.guesser}
           refreshGameState={refreshGameState}
           gameId={gameId}
         />
-      }
-      {isGuesser && <GuesserControls round={gameState?.round} refreshGameState={refreshGameState} gameId={gameId} />}
+      )}
+      {isGuesser && (
+        <GuesserControls
+          round={gameState?.round}
+          refreshGameState={refreshGameState}
+          gameId={gameId}
+        />
+      )}
     </div>
   );
 };

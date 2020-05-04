@@ -50,10 +50,10 @@ const PsychicControls = ({ roundState, guesser, refreshGameState, gameId }) => {
 
   useEffect(() => {
     (async () => {
-      const result = await fetch('/api/cards');
+      const result = await fetch("/api/cards");
       const json = await result.json();
-      
-      if(!isMounted) return;
+
+      if (!isMounted) return;
 
       setCards(json);
     })();
@@ -105,15 +105,16 @@ const PsychicControls = ({ roundState, guesser, refreshGameState, gameId }) => {
                 })}
               </div>
               {cards.length > 3 && (
-              <button
-                className="block py-1 px-3 border rounded-lg hover:bg-gray-300 my-2"
-                onClick={() => {
-                  clearSelectedCard();
-                  selectRandomCards();
-                }}
-              >
-                Show more cards
-              </button>)}
+                <button
+                  className="block py-1 px-3 border rounded-lg hover:bg-gray-300 my-2"
+                  onClick={() => {
+                    clearSelectedCard();
+                    selectRandomCards();
+                  }}
+                >
+                  Show more cards
+                </button>
+              )}
             </div>
           )}
           {showCustomCard && (
@@ -189,25 +190,25 @@ const PsychicControls = ({ roundState, guesser, refreshGameState, gameId }) => {
         roundState === RoundStates.Finished) &&
       guesser ? (
         <div className="flex justify-center">
-        <button
-          className="ml-2 py-2 px-3 border rounded-lg hover:bg-gray-300"
-          type="button"
-          onClick={async (e) => {
-            const flipRoles = roundState === RoundStates.Finished;
+          <button
+            className="ml-2 py-2 px-3 border rounded-lg hover:bg-gray-300"
+            type="button"
+            onClick={async (e) => {
+              const flipRoles = roundState === RoundStates.Finished;
 
-            await fetch(`/api/game/${gameId}/startGame`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ flipRoles }),
-            });
+              await fetch(`/api/game/${gameId}/startGame`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ flipRoles }),
+              });
 
-            refreshGameState();
-          }}
-        >
-          Start a new round
-        </button>
+              refreshGameState();
+            }}
+          >
+            Start a new round
+          </button>
         </div>
       ) : (
         ""

@@ -16,7 +16,7 @@ const gameStates = [
   "finished-me-other",
 ];
 
-const DebugControls = ({refreshGameState}) => {
+const DebugControls = ({ refreshGameState }) => {
   const router = useRouter();
   const { gameId } = router.query;
   const [visible, setVisible] = useState(true);
